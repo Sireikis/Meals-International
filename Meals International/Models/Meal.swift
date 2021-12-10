@@ -26,20 +26,3 @@ extension Meal {
         case imageID = "strMealThumb"
     }
 }
-
-/*
- 
- struct MealsDBMeal: Decodable {
-     
-     let name: String
-     let id: String
-     
-     let imageID: String // URL? JPEG
-     
-     enum CodingKeys: String, CodingKey {
-         case name = "strMeal"
-         case id = "idMeal"
-         case imageID = "strMealThumb"
-     }
- }
- */

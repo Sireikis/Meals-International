@@ -16,13 +16,11 @@
 		7B0DDC3B275145B900FD8975 /* Meals_InternationalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC3A275145B900FD8975 /* Meals_InternationalTests.swift */; };
 		7B0DDC45275145B900FD8975 /* Meals_InternationalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC44275145B900FD8975 /* Meals_InternationalUITests.swift */; };
 		7B0DDC47275145B900FD8975 /* Meals_InternationalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC46275145B900FD8975 /* Meals_InternationalUITestsLaunchTests.swift */; };
-		7B0DDC54275145F100FD8975 /* TheMealsDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC53275145F100FD8975 /* TheMealsDBAPI.swift */; };
-		7B0DDC5C27514A0100FD8975 /* TheMealsDBAPIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC5B27514A0100FD8975 /* TheMealsDBAPIData.swift */; };
-		7B0DDC5F2751721D00FD8975 /* DataPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0DDC5E2751721D00FD8975 /* DataPublisher.swift */; };
 		7BFA60DE2763F7450072A4F7 /* TheMealsDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60DD2763F7450072A4F7 /* TheMealsDBService.swift */; };
 		7BFA60E02763F77D0072A4F7 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60DF2763F77D0072A4F7 /* Category.swift */; };
 		7BFA60E22763F7910072A4F7 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60E12763F7910072A4F7 /* Meal.swift */; };
 		7BFA60E42763F85E0072A4F7 /* MealDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60E32763F85E0072A4F7 /* MealDetails.swift */; };
+		7BFA60E72763FD230072A4F7 /* AnyCodingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60E62763FD230072A4F7 /* AnyCodingKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,13 +54,11 @@
 		7B0DDC40275145B900FD8975 /* Meals InternationalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Meals InternationalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0DDC44275145B900FD8975 /* Meals_InternationalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meals_InternationalUITests.swift; sourceTree = "<group>"; };
 		7B0DDC46275145B900FD8975 /* Meals_InternationalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meals_InternationalUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		7B0DDC53275145F100FD8975 /* TheMealsDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMealsDBAPI.swift; sourceTree = "<group>"; };
-		7B0DDC5B27514A0100FD8975 /* TheMealsDBAPIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMealsDBAPIData.swift; sourceTree = "<group>"; };
-		7B0DDC5E2751721D00FD8975 /* DataPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPublisher.swift; sourceTree = "<group>"; };
 		7BFA60DD2763F7450072A4F7 /* TheMealsDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMealsDBService.swift; sourceTree = "<group>"; };
 		7BFA60DF2763F77D0072A4F7 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		7BFA60E12763F7910072A4F7 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		7BFA60E32763F85E0072A4F7 /* MealDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetails.swift; sourceTree = "<group>"; };
+		7BFA60E62763FD230072A4F7 /* AnyCodingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodingKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,9 +112,9 @@
 				7B0DDC23275145B800FD8975 /* AppDelegate.swift */,
 				7B0DDC25275145B800FD8975 /* SceneDelegate.swift */,
 				7B0DDC602751891300FD8975 /* View Controllers */,
-				7B0DDC5E2751721D00FD8975 /* DataPublisher.swift */,
 				7B0DDC5D27514A0400FD8975 /* Services */,
 				7B0DDC5A275146C200FD8975 /* Models */,
+				7BFA60E52763FD190072A4F7 /* Utilities */,
 				7B0DDC29275145B800FD8975 /* Main.storyboard */,
 				7B0DDC2C275145B900FD8975 /* Assets.xcassets */,
 				7B0DDC2E275145B900FD8975 /* LaunchScreen.storyboard */,
@@ -144,14 +140,6 @@
 			path = "Meals InternationalUITests";
 			sourceTree = "<group>";
 		};
-		7B0DDC55275145F500FD8975 /* API Endpoints */ = {
-			isa = PBXGroup;
-			children = (
-				7B0DDC53275145F100FD8975 /* TheMealsDBAPI.swift */,
-			);
-			path = "API Endpoints";
-			sourceTree = "<group>";
-		};
 		7B0DDC5A275146C200FD8975 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,9 +153,7 @@
 		7B0DDC5D27514A0400FD8975 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7B0DDC5B27514A0100FD8975 /* TheMealsDBAPIData.swift */,
 				7BFA60DD2763F7450072A4F7 /* TheMealsDBService.swift */,
-				7B0DDC55275145F500FD8975 /* API Endpoints */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -178,6 +164,14 @@
 				7B0DDC27275145B800FD8975 /* CategoriesViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7BFA60E52763FD190072A4F7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				7BFA60E62763FD230072A4F7 /* AnyCodingKey.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,14 +306,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BFA60E02763F77D0072A4F7 /* Category.swift in Sources */,
+				7BFA60E72763FD230072A4F7 /* AnyCodingKey.swift in Sources */,
 				7B0DDC28275145B800FD8975 /* CategoriesViewController.swift in Sources */,
-				7B0DDC54275145F100FD8975 /* TheMealsDBAPI.swift in Sources */,
 				7BFA60E42763F85E0072A4F7 /* MealDetails.swift in Sources */,
 				7BFA60E22763F7910072A4F7 /* Meal.swift in Sources */,
-				7B0DDC5C27514A0100FD8975 /* TheMealsDBAPIData.swift in Sources */,
 				7BFA60DE2763F7450072A4F7 /* TheMealsDBService.swift in Sources */,
 				7B0DDC24275145B800FD8975 /* AppDelegate.swift in Sources */,
-				7B0DDC5F2751721D00FD8975 /* DataPublisher.swift in Sources */,
 				7B0DDC26275145B800FD8975 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,21 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class CategoriesViewController: UIViewController {
     
-    //var subscriptions = Set<AnyCancellable>()
+    var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        let publisher = DataPublisher()
-        //let subscription = publisher.getMealsPublisher()
-        
-        
+
+        //let publisher = DataPublisher()
     }
-
-
 }
-

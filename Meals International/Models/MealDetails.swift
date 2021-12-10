@@ -16,11 +16,7 @@ struct MealDetails: Decodable {
     let area: String
     
     let instructions: String
-    //let youTubeLink: URL?
-    
     let ingredients: [String]
-    
-    //let source: URL?
 }
 
 extension MealDetails {
@@ -32,14 +28,13 @@ extension MealDetails {
         case area = "strArea"
         
         case instructions = "strInstructions"
-        //case youTubeLink = "strYoutube"
-        
-        //case source = "strSource"
     }
 }
 
+// MARK: - Decoding Strategy
+
 extension MealDetails {
-    
+    /// Decoding strategy for MealDetails--parses measurements and ingredients into ingredients array.
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -49,37 +44,12 @@ extension MealDetails {
         self.area = try container.decode(String.self, forKey: .area)
         
         self.instructions = try container.decode(String.self, forKey: .instructions)
-   
-        /*
-         do {
-             // Sets default value if nil
-             if let youTubeLink = try container.decodeIfPresent(URL.self, forKey: .youTubeLink) {
-                 self.youTubeLink = youTubeLink
-             } else {
-                 self.youTubeLink = nil
-             }
-         } catch {
-             // Sets default value if error
-             self.youTubeLink = nil
-         }
-         
-         do {
-             // Sets default value if nil
-             if let source = try container.decodeIfPresent(URL.self, forKey: .source) {
-                 self.source = source
-             } else {
-                 self.source = nil
-             }
-         } catch {
-             // Sets default value if error
-             self.source = nil
-         }
-         */
         
         // Composing Ingredients and Measurements (1-20)
         let ingredientsContainer = try decoder.container(keyedBy: AnyCodingKey.self)
         
         var ingredients = [String]()
+        
         for i in 1...20 {
             guard let measurementKey = AnyCodingKey(stringValue: "strMeasure\(i)"),
                   let ingredientsKey = AnyCodingKey(stringValue: "strIngredient\(i)")
@@ -96,11 +66,9 @@ extension MealDetails {
             }
             
             if measurement.rangeOfCharacter(from: .alphanumerics) == nil {
-                //measurement.append("")
-                ingredients.append("") // Why is this here again?
+                ingredients.append("")
                 continue
             }
-            
             if ingredient.rangeOfCharacter(from: .alphanumerics) == nil {
                 ingredients.append("")
                 continue
@@ -112,49 +80,3 @@ extension MealDetails {
         self.ingredients = ingredients
     }
 }
-
-struct AnyCodingKey: CodingKey {
-    let stringValue: String
-    let intValue: Int?
-    
-    init?(stringValue: String) {
-        self.stringValue = stringValue
-        self.intValue = nil
-    }
-    
-    init?(intValue: Int) {
-        self.intValue = intValue
-        self.stringValue = "\(intValue)"
-    }
-}
-
-/*
- struct MealDetails: Codable {
-     
-     let name: String
-     let id: String
-     let category: String
-     let area: String
-     
-     let instructions: String
-     let youTubeLink: URL?
-     
-     let ingredients: [String]
-     
-     let source: URL?
-     
-     enum CodingKeys: String, CodingKey {
-         
-         case name = "strMeal"
-         case id = "idMeal"
-         case category = "strCategory"
-         case area = "strArea"
-         
-         case instructions = "strInstructions"
-         case youTubeLink = "strYoutube"
-         
-         case source = "strSource"
-     }
-     
- }
- */

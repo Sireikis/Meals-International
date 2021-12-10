@@ -28,23 +28,3 @@ extension Category {
         case description = "strCategoryDescription"
     }
 }
-
-/*
- struct MealsDBCategory: Decodable {
-     
-     let name: String
-     let id: String
-     
-     let imageID: String // URL? PNG
-     let description: String
-     
-     var meals = [Meal]()
-     
-     enum CodingKeys: String, CodingKey {
-         case name = "strCategory"
-         case id = "idCategory"
-         case imageID = "strCategoryThumb"
-         case description = "strCategoryDescription"
-     }
- }
- */
