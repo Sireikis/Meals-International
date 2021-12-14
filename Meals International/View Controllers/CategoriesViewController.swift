@@ -9,6 +9,8 @@ import UIKit
 import Combine
 
 /*
+ // TODO: Need to add Persistence and Tests!
+ 
  // TODO: How can we handle errors when fetching a meal?
  -Multiple requests are made, so we could potentially be making multiple calls to show a UIAlert.
  
@@ -16,6 +18,7 @@ import Combine
  
  // TODO: Currently the fetchImage API call is made everytime a new header is visible.
  -I need to store that info somewhere and make sure I'm pulling from the first before I make a call.
+ 
  */
 class CategoriesViewController: UIViewController, UITableViewDelegate {
     

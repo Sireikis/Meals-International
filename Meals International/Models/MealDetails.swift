@@ -66,16 +66,10 @@ extension MealDetails {
             guard let measurement = try ingredientsContainer.decodeIfPresent(String.self, forKey: measurementKey),
                   let ingredient = try ingredientsContainer.decodeIfPresent(String.self, forKey: ingredientsKey)
             else {
-                ingredients.append("")
                 continue
             }
             
-            if measurement.rangeOfCharacter(from: .alphanumerics) == nil {
-                ingredients.append("")
-                continue
-            }
-            if ingredient.rangeOfCharacter(from: .alphanumerics) == nil {
-                ingredients.append("")
+            if measurement.rangeOfCharacter(from: .alphanumerics) == nil || ingredient.rangeOfCharacter(from: .alphanumerics) == nil {
                 continue
             }
             

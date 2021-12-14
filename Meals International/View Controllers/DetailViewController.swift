@@ -22,6 +22,9 @@ class DetailViewController: UIViewController {
     
     @IBOutlet var mealImage: UIImageView!
     @IBOutlet var mealTitle: UILabel!
+    @IBOutlet var mealSubtitle: UILabel!
+    @IBOutlet var mealIngredients: UILabel!
+    @IBOutlet var mealInstructions: UILabel!
     
     var meal: Meal!
     var subscriptions = Set<AnyCancellable>()
@@ -96,6 +99,50 @@ class DetailViewController: UIViewController {
     
     /// Updates UI with current meal Info
     private func reset() {
-        mealTitle.text = meal.name
+        setTitle()
+        setSubtitle()
+        setIngredients()
+        setInstructions()
+    }
+    
+// MARK: - Helper Functions
+    
+    private func setTitle() {
+        if let mealDetails = meal.mealDetails {
+            mealTitle.text = mealDetails.name
+        }
+    }
+    
+    private func setSubtitle() {
+        if let mealDetails = meal.mealDetails {
+            let area = mealDetails.area
+            let category = mealDetails.category
+            
+            if area.lowercased() == "unknown" {
+                mealSubtitle.text = ""
+            } else {
+                let subtitle = "\(area) - \(category)"
+                mealSubtitle.text = subtitle
+            }
+        }
+    }
+    
+    private func setIngredients() {
+        if let mealDetails = meal.mealDetails {
+            let ingredientsList = mealDetails.ingredients
+            
+            var parsedIngredients = ""
+            for ingredientsList in ingredientsList {
+                parsedIngredients += ingredientsList + "\n"
+            }
+            
+            mealIngredients.text = parsedIngredients
+        }
+    }
+    
+    private func setInstructions() {
+        if let mealDetails = meal.mealDetails {
+            mealInstructions.text = mealDetails.instructions
+        }
     }
 }
