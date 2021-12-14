@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Category: Decodable {
+public struct Category: Decodable {
     
     let name: String
     let id: String
@@ -27,4 +27,16 @@ extension Category {
         case imageID = "strCategoryThumb"
         case description = "strCategoryDescription"
     }
+}
+
+// MARK: - Mock
+
+extension Category {
+    
+    static let mockCategory = Category(
+        name: "Chicken",
+        id: "1",
+        imageID: nil,
+        description: "Tastes like everything.",
+        meals: [Meal(name: "Chicken Kiev", id: 1, imageID: nil, mealDetails: nil)])
 }

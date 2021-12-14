@@ -8,12 +8,14 @@
 import Foundation
 
 
-struct MealDetails: Decodable {
+public struct MealDetails: Decodable {
     
     let name: String
     let id: String
     let category: String
     let area: String
+    
+    let imageID: URL?
     
     let instructions: String
     let ingredients: [String]
@@ -27,6 +29,8 @@ extension MealDetails {
         case category = "strCategory"
         case area = "strArea"
         
+        case imageID = "strMealThumb"
+        
         case instructions = "strInstructions"
     }
 }
@@ -35,13 +39,14 @@ extension MealDetails {
 
 extension MealDetails {
     /// Decoding strategy for MealDetails--parses measurements and ingredients into ingredients array.
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.name = try container.decode(String.self, forKey: .name)
         self.id = try container.decode(String.self, forKey: .id)
         self.category = try container.decode(String.self, forKey: .category)
         self.area = try container.decode(String.self, forKey: .area)
+        self.imageID = try container.decode(URL.self, forKey: .imageID)
         
         self.instructions = try container.decode(String.self, forKey: .instructions)
         
@@ -79,4 +84,18 @@ extension MealDetails {
         
         self.ingredients = ingredients
     }
+}
+
+// MARK: - Mock
+
+extension MealDetails {
+    
+    static let mockMealDetails = MealDetails(
+        name: "Loading",
+        id: "",
+        category: "",
+        area: "",
+        imageID: nil,
+        instructions: "",
+        ingredients: [""])
 }
