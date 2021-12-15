@@ -23,7 +23,6 @@
 		7B8C8FA727680A9400EE5AC0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8C8FA627680A9400EE5AC0 /* DetailViewController.swift */; };
 		7BB376C6276A549C00E1F4ED /* UIView+ShadowBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB376C5276A549C00E1F4ED /* UIView+ShadowBox.swift */; };
 		7BB376C8276A6AB100E1F4ED /* MealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB376C7276A6AB100E1F4ED /* MealCell.swift */; };
-		7BB376CC276A8CD900E1F4ED /* CategoriesFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB376CB276A8CD900E1F4ED /* CategoriesFooterView.swift */; };
 		7BFA60DE2763F7450072A4F7 /* TheMealsDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60DD2763F7450072A4F7 /* TheMealsDBService.swift */; };
 		7BFA60E02763F77D0072A4F7 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60DF2763F77D0072A4F7 /* Category.swift */; };
 		7BFA60E22763F7910072A4F7 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA60E12763F7910072A4F7 /* Meal.swift */; };
@@ -71,7 +70,6 @@
 		7B8C8FA627680A9400EE5AC0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7BB376C5276A549C00E1F4ED /* UIView+ShadowBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ShadowBox.swift"; sourceTree = "<group>"; };
 		7BB376C7276A6AB100E1F4ED /* MealCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCell.swift; sourceTree = "<group>"; };
-		7BB376CB276A8CD900E1F4ED /* CategoriesFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesFooterView.swift; sourceTree = "<group>"; };
 		7BFA60DD2763F7450072A4F7 /* TheMealsDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMealsDBService.swift; sourceTree = "<group>"; };
 		7BFA60DF2763F77D0072A4F7 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		7BFA60E12763F7910072A4F7 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				7BB376C7276A6AB100E1F4ED /* MealCell.swift */,
-				7BB376CB276A8CD900E1F4ED /* CategoriesFooterView.swift */,
 			);
 			path = "Reuseable UI";
 			sourceTree = "<group>";
@@ -352,7 +349,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B8C8FA727680A9400EE5AC0 /* DetailViewController.swift in Sources */,
-				7BB376CC276A8CD900E1F4ED /* CategoriesFooterView.swift in Sources */,
 				7BFA60E02763F77D0072A4F7 /* Category.swift in Sources */,
 				7BFA60E72763FD230072A4F7 /* AnyCodingKey.swift in Sources */,
 				7BB376C8276A6AB100E1F4ED /* MealCell.swift in Sources */,

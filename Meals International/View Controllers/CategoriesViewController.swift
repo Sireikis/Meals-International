@@ -41,9 +41,6 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
         
         setupDataSource()
         fetchCategoriesAndMeals()
-        
-        
-        //tableView.register(CategoriesFooterView.self, forHeaderFooterViewReuseIdentifier: "footer")
     }
     
     private func fetchCategoriesAndMeals() {
@@ -137,7 +134,7 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
 // MARK: - TableViewController Delegate Methods
 
 extension CategoriesViewController {
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeaderLabelView = UIView()
         sectionHeaderLabelView.backgroundColor = .white
@@ -149,7 +146,6 @@ extension CategoriesViewController {
         // one if we scroll up and down.
         if let imageURL = tableViewDataSource.categories[section].imageID {
             viewModel.fetchImage(from: imageURL)
-                //.receive(on: DispatchQueue.main)
                 .sink { completion in
                     // Error handling here
                     print("Image header completion: \(completion)")
@@ -171,47 +167,7 @@ extension CategoriesViewController {
         
         return sectionHeaderLabelView
     }
-    
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let sectionFooterLabelView = UIView()
-//        sectionFooterLabelView.backgroundColor = .white
-//
-//        let sectionFooterLabel = UILabel()
-//        sectionFooterLabel.text = tableViewDataSource.categories[section].description
-//        sectionFooterLabel.lineBreakMode = .byWordWrapping
-//        sectionFooterLabel.numberOfLines = 0
-//
-//        sectionFooterLabel.textColor = .black
-//        sectionFooterLabel.font = UIFont.italicSystemFont(ofSize: 12)
-//
-//        sectionFooterLabelView.addSubview(sectionFooterLabel)
-//
-//        sectionFooterLabel.translatesAutoresizingMaskIntoConstraints = false
-//        let topAnchor = sectionFooterLabel.topAnchor.constraint(equalTo: sectionFooterLabelView.topAnchor, constant: 10)
-//        let botAnchor = sectionFooterLabel.bottomAnchor.constraint(equalTo: sectionFooterLabelView.bottomAnchor)
-//        let leadingAnchor = sectionFooterLabel.leadingAnchor.constraint(equalTo: sectionFooterLabelView.leadingAnchor, constant: 10)
-//        let trailingAnchor = sectionFooterLabel.trailingAnchor.constraint(equalTo: sectionFooterLabelView.trailingAnchor)
-//
-//        topAnchor.isActive = true
-//        botAnchor.isActive = true
-//        leadingAnchor.isActive = true
-//        trailingAnchor.isActive = true
-//
-//        return sectionFooterLabelView
-//    }
-    
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer"
-//        ) as? CategoriesFooterView else {
-//            fatalError("Unable to deque CategoriesFooterView")
-//        }
-//
-//        //let description = tableViewDataSource.categories[section].description
-//        //footer.updateLabel(text: description)
-//
-//        return footer
-//    }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }

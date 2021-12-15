@@ -46,9 +46,11 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
         
         if let imageID = item.imageID {
             viewModel.fetchImage(from: imageID)
+                //.delay(for: .seconds(0.5), scheduler: DispatchQueue.main)
                 .sink(receiveValue: { image in
                     print("Image ")
                     cell.mealImage.image = image
+                    //tableView.reloadRows(at: [indexPath], with: .automatic)
                 })
                 .store(in: &subscriptions)
         }
@@ -56,6 +58,8 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
         return cell
     }
     
+    // Auto-generates a footer using the description--without the overlay that viewForFooterInSection forces.
+    // This only works when tableView's style is set to Grouped.
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return categories[section].description
     }
