@@ -5,16 +5,11 @@
 //  Created by Ignas Sireikis on 12/13/21.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 /*
  Correct meal is passed to viewController, which passes to viewModel.
- */
-
-/*
- // TODO: Refactor image loading
- // TODO: Refactor components creation in TheMealsDBService
  */
 class DetailViewController: UIViewController {
     
@@ -23,8 +18,12 @@ class DetailViewController: UIViewController {
     @IBOutlet var mealImage: UIImageView!
     @IBOutlet var mealTitle: UILabel!
     @IBOutlet var mealSubtitle: UILabel!
+    
     @IBOutlet var mealIngredients: UILabel!
+    @IBOutlet var mealIngredientsBox: UIView!
+    
     @IBOutlet var mealInstructions: UILabel!
+    @IBOutlet var mealInstructionsBox: UIView!
     
     var meal: Meal!
     var subscriptions = Set<AnyCancellable>()
@@ -33,17 +32,28 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         setupDataSource()
-        configureImage()
+        configureView()
         
         fetchMealDetails()
     }
     
+    private func configureView() {
+        configureImage()
+        configureIngredientsBox()
+        configureInstructionsBox()
+    }
+    
     private func configureImage() {
-        //mealImage.backgroundColor = .blue
-//        mealImage.layer.borderWidth = 1
-//        mealImage.layer.borderColor = UIColor.black.cgColor
-        mealImage.layer.cornerRadius = mealImage.frame.height / 2
+        mealImage.layer.cornerRadius = mealImage.frame.height / 3
         mealImage.clipsToBounds = true
+    }
+    
+    private func configureIngredientsBox() {
+        mealIngredientsBox.roundedBoxWithBorderAndShadow()
+    }
+    
+    private func configureInstructionsBox() {
+        mealInstructionsBox.roundedBoxWithBorderAndShadow()
     }
     
     /// Links ViewModel's model data to dataSource

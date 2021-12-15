@@ -59,7 +59,6 @@ extension MealDetails {
             guard let measurementKey = AnyCodingKey(stringValue: "strMeasure\(i)"),
                   let ingredientsKey = AnyCodingKey(stringValue: "strIngredient\(i)")
             else {
-                ingredients.append("")
                 continue
             }
             

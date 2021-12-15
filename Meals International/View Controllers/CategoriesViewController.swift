@@ -5,8 +5,9 @@
 //  Created by Ignas Sireikis on 11/26/21.
 //
 
-import UIKit
 import Combine
+import UIKit
+
 
 /*
  // TODO: Need to add Persistence and Tests!
@@ -34,11 +35,15 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
         
         tableView.dataSource = tableViewDataSource
         tableViewDataSource.categories = viewModel.categories
+        tableViewDataSource.viewModel = viewModel
         
         tableView.delegate = self
         
         setupDataSource()
         fetchCategoriesAndMeals()
+        
+        
+        //tableView.register(CategoriesFooterView.self, forHeaderFooterViewReuseIdentifier: "footer")
     }
     
     private func fetchCategoriesAndMeals() {
@@ -135,7 +140,7 @@ extension CategoriesViewController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeaderLabelView = UIView()
-        sectionHeaderLabelView.backgroundColor = UIColor.white
+        sectionHeaderLabelView.backgroundColor = .white
         
         let sectionHeaderImageView = UIImageView()
         
@@ -154,24 +159,68 @@ extension CategoriesViewController {
                 .store(in: &subscriptions)
         }
         
-        sectionHeaderImageView.frame = CGRect(x: 3, y: 10, width: 30, height: 30)
+        sectionHeaderImageView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         sectionHeaderLabelView.addSubview(sectionHeaderImageView)
         
         let sectionHeaderLabel = UILabel()
         sectionHeaderLabel.text = tableViewDataSource.categories[section].name
         sectionHeaderLabel.textColor = .black
         sectionHeaderLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
-        sectionHeaderLabel.frame = CGRect(x: 43, y: 5, width: 250, height: 40)
+        sectionHeaderLabel.frame = CGRect(x: 53, y: 5, width: 250, height: 44)
         sectionHeaderLabelView.addSubview(sectionHeaderLabel)
         
         return sectionHeaderLabelView
     }
     
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let sectionFooterLabelView = UIView()
+//        sectionFooterLabelView.backgroundColor = .white
+//
+//        let sectionFooterLabel = UILabel()
+//        sectionFooterLabel.text = tableViewDataSource.categories[section].description
+//        sectionFooterLabel.lineBreakMode = .byWordWrapping
+//        sectionFooterLabel.numberOfLines = 0
+//
+//        sectionFooterLabel.textColor = .black
+//        sectionFooterLabel.font = UIFont.italicSystemFont(ofSize: 12)
+//
+//        sectionFooterLabelView.addSubview(sectionFooterLabel)
+//
+//        sectionFooterLabel.translatesAutoresizingMaskIntoConstraints = false
+//        let topAnchor = sectionFooterLabel.topAnchor.constraint(equalTo: sectionFooterLabelView.topAnchor, constant: 10)
+//        let botAnchor = sectionFooterLabel.bottomAnchor.constraint(equalTo: sectionFooterLabelView.bottomAnchor)
+//        let leadingAnchor = sectionFooterLabel.leadingAnchor.constraint(equalTo: sectionFooterLabelView.leadingAnchor, constant: 10)
+//        let trailingAnchor = sectionFooterLabel.trailingAnchor.constraint(equalTo: sectionFooterLabelView.trailingAnchor)
+//
+//        topAnchor.isActive = true
+//        botAnchor.isActive = true
+//        leadingAnchor.isActive = true
+//        trailingAnchor.isActive = true
+//
+//        return sectionFooterLabelView
+//    }
+    
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer"
+//        ) as? CategoriesFooterView else {
+//            fatalError("Unable to deque CategoriesFooterView")
+//        }
+//
+//        //let description = tableViewDataSource.categories[section].description
+//        //footer.updateLabel(text: description)
+//
+//        return footer
+//    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 44
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 40
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+        return 44
     }
 }

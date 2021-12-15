@@ -5,14 +5,11 @@
 //  Created by Ignas Sireikis on 12/10/21.
 //
 
-import Foundation
 import Combine
+import Foundation
 import UIKit
 
 
-/*
- // TODO: Standardize order of import statements alphabetically
- */
 extension CategoriesViewController {
     
     final class ViewModel: ObservableObject {

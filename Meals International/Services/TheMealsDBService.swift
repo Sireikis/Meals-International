@@ -5,16 +5,13 @@
 //  Created by Ignas Sireikis on 12/10/21.
 //
 
-import Foundation
 import Combine
+import Foundation
+
 
 /*
- TODO: Create custom errors enum and handle them.
- -Error handling moved into viewController
- 
  // TODO: Re-evaluate error handling after publisher changes
  */
-
 public protocol TheMealsDBServiceDataPublisher {
     func categories() -> AnyPublisher<[Category], Error>
     func filterMeals(for category: Category) -> AnyPublisher<[Meal], Error>
@@ -94,12 +91,16 @@ public final class TheMealsDBService: TheMealsDBServiceDataPublisher {
     }
 }
 
-/*
- // TODO: Refactor components section of filter/lookUp
- */
 extension TheMealsDBService {
     /// Creates URLs for TheMealsDB endpoints
     private enum TheMealsDBEndPoint {
+        
+        private enum EndPoint: String {
+            
+            case categories = "categories.php"
+            case filter = "filter.php"
+            case lookUp = "lookup.php"
+        }
         
         private static let baseURL = URL(string: "https://www.themealdb.com/api/json/v1/\(apiKey)/")!
         private static let apiKey = "1"
@@ -115,20 +116,19 @@ extension TheMealsDBService {
         public var url: URL {
             switch self {
             case .categories:
-                return TheMealsDBEndPoint.baseURL.appendingPathComponent("categories.php")
+                return createURL(for: .categories, parameters: [:])
             case .filter(let name):
-                var components =  URLComponents(string: TheMealsDBEndPoint.baseURL.absoluteString + "filter.php")!
-                components.setQueryItems(with: ["c" : name])
-                //print(components)
-                //return TheMealsDBEndPoint.baseURL.appendingPathComponent("\(name)/filter.php")
-                return components.url!
+                return createURL(for: .filter, parameters: ["c" : name])
             case .lookUp(let id):
-                var components =  URLComponents(string: TheMealsDBEndPoint.baseURL.absoluteString + "lookup.php")!
-                components.setQueryItems(with: ["i" : String(id)])
-                //print(components)
-                //return TheMealsDBEndPoint.baseURL.appendingPathComponent("\(id)/lookup.php")
-                return components.url!
+                return createURL(for: .lookUp, parameters: ["i" : String(id)])
             }
+        }
+        
+        private func createURL(for endPoint: EndPoint, parameters: [String: String]) -> URL {
+            var components = URLComponents(string: TheMealsDBEndPoint.baseURL.absoluteString + endPoint.rawValue)!
+            components.setQueryItems(with: parameters)
+            
+            return components.url!
         }
     }
 }
