@@ -9,11 +9,13 @@ import Combine
 import UIKit
 
 /*
- Correct meal is passed to viewController, which passes to viewModel.
+ // TODO: Move all the set helper functions into ViewModel?
+ -Can just pass the indexPath in?
+ -What other methods should go into the ViewModel?
  */
 class DetailViewController: UIViewController {
     
-    private var viewModel = ViewModel()
+    var viewModel: DetailViewController.ViewModel!
     
     @IBOutlet var mealImage: UIImageView!
     @IBOutlet var mealTitle: UILabel!
@@ -26,14 +28,14 @@ class DetailViewController: UIViewController {
     @IBOutlet var mealInstructionsBox: UIView!
     
     var meal: Meal!
-    var subscriptions = Set<AnyCancellable>()
+    var indexPath: IndexPath!
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDataSource()
         configureView()
-        
         fetchMealDetails()
     }
     
@@ -56,23 +58,8 @@ class DetailViewController: UIViewController {
         mealInstructionsBox.roundedBoxWithBorderAndShadow()
     }
     
-    /// Links ViewModel's model data to dataSource
-    private func setupDataSource() {
-        viewModel.meal = meal
-        
-        viewModel.$meal
-            .sink(receiveCompletion: { completion in
-                print("DetailView Assign Completion: \(completion)")
-            }, receiveValue: { [unowned self] meal in
-                print("Controller Meal Received")
-                self.meal = meal
-                reset()
-            })
-            .store(in: &subscriptions)
-    }
-    
     private func fetchMealDetails() {
-        viewModel.fetchMealDetails(for: viewModel.meal)
+        viewModel.fetchMealDetails(for: meal)
             .mapError { [unowned self] error -> TheMealsDBService.MealsError in
                 switch error {
                 case is URLError:
@@ -89,14 +76,20 @@ class DetailViewController: UIViewController {
             }
             .replaceError(with: MealDetails.mockMealDetails)
             .sink(receiveValue: { [unowned self] mealDetails in
-                viewModel.meal.mealDetails = mealDetails
-                if let imageURL = mealDetails.imageID {
+                let section = indexPath.section
+                let row = indexPath.row
+                
+                viewModel.appState.categories[section].meals[row].mealDetails = mealDetails
+                meal.mealDetails = mealDetails
+                
+                if let imageURL = meal.imageID {
                     viewModel.fetchImage(from: imageURL)
                         .sink { image in
                             mealImage.image = image
                         }
                         .store(in: &subscriptions)
                 }
+                reset()
             })
             .store(in: &subscriptions)
     }

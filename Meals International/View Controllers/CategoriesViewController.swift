@@ -17,29 +17,29 @@ import UIKit
  
  // TODO: Create loading indicator instead of showing Mock?
  
- // TODO: Currently the fetchImage API call is made everytime a new header is visible.
- -I need to store that info somewhere and make sure I'm pulling from the first before I make a call.
  
+ // TODO: The following cannot be done because fetchMeals is called 14 times no matter what. Once for each category.
+ #warning("Put the reload data in a better place or implement collect!")
+ -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
+ to fetch once for each category.
  */
 class CategoriesViewController: UIViewController, UITableViewDelegate {
     
-    private var viewModel = ViewModel()
+    var viewModel: CategoriesViewController.ViewModel!
     
     @IBOutlet var tableView: UITableView!
     
-    let tableViewDataSource = CategoriesDataSource()
-    var subscriptions = Set<AnyCancellable>()
+    private let tableViewDataSource = CategoriesDataSource()
+    private var subscriptions = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = tableViewDataSource
-        tableViewDataSource.categories = viewModel.categories
         tableViewDataSource.viewModel = viewModel
         
         tableView.delegate = self
         
-        setupDataSource()
         fetchCategoriesAndMeals()
     }
     
@@ -60,14 +60,14 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
             }
             .replaceError(with: [Category.mockCategory])
             .sink(receiveValue: { [unowned self] categories in
-                viewModel.categories = categories
+                viewModel.appState.categories = categories
                 fetchMeals()
             })
             .store(in: &subscriptions)
     }
     
     private func fetchMeals() {
-        for (index, category) in viewModel.categories.enumerated() {
+        for (index, category) in viewModel.appState.categories.enumerated() {
             viewModel.fetchMeals(for: category)
 //                .mapError { [unowned self] error -> TheMealsDBService.Error in
 //                    switch error {
@@ -82,26 +82,15 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
 //                        return error as? TheMealsDBService.Error ?? .unknown
 //                    }
 //                }
+                //.delay(for: .seconds(0.5), scheduler: DispatchQueue.main)
                 .sink { completion in
                     print("Meals fetch Completion: \(completion)")
                 } receiveValue: { [unowned self] meals in
-                    viewModel.categories[index].meals = meals
+                    viewModel.appState.categories[index].meals = meals
+                    tableView.reloadData()
                 }
                 .store(in: &subscriptions)
         }
-    }
-    
-    /// Links ViewModel's model data to dataSource
-    private func setupDataSource() {
-        viewModel.$categories
-            .sink(receiveCompletion: { completion in
-                print("Assign Completion: \(completion)")
-            }, receiveValue: { [unowned self] categories in
-                print("Controller Categories Received")
-                self.tableViewDataSource.categories = categories
-                self.tableView.reloadData()
-            })
-            .store(in: &subscriptions)
     }
     
     private func showAlert(_ title: String, description: String? = nil) {
@@ -121,10 +110,13 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
             let row = indexPath.row
             let section = indexPath.section
       
-            let meal = viewModel.categories[section].meals[row]
+            let meal = viewModel.appState.categories[section].meals[row]
             
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.meal = meal
+            detailViewController.indexPath = indexPath
+            detailViewController.viewModel = .init(container: viewModel.container)
+            
         default:
             preconditionFailure("Unexpected segue identifier.")
         }
@@ -140,11 +132,8 @@ extension CategoriesViewController {
         sectionHeaderLabelView.backgroundColor = .white
         
         let sectionHeaderImageView = UIImageView()
-        
-        // TODO: This api call shouldnt be here. I should pull from a persistent store
-        // Being called everytime we see a new header. Is called multiple times for the same
-        // one if we scroll up and down.
-        if let imageURL = tableViewDataSource.categories[section].imageID {
+   
+        if let imageURL = viewModel.appState.categories[section].imageID {
             viewModel.fetchImage(from: imageURL)
                 .sink { completion in
                     // Error handling here
@@ -159,7 +148,7 @@ extension CategoriesViewController {
         sectionHeaderLabelView.addSubview(sectionHeaderImageView)
         
         let sectionHeaderLabel = UILabel()
-        sectionHeaderLabel.text = tableViewDataSource.categories[section].name
+        sectionHeaderLabel.text = viewModel.appState.categories[section].name
         sectionHeaderLabel.textColor = .black
         sectionHeaderLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         sectionHeaderLabel.frame = CGRect(x: 53, y: 5, width: 250, height: 44)

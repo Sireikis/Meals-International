@@ -52,5 +52,6 @@ extension Meal {
         name: "Loading",
         id: 0,
         imageID: nil,
-        mealDetails: nil)
+        mealDetails: MealDetails.mockMealDetails)
 }
+

@@ -14,18 +14,20 @@ extension CategoriesViewController {
     
     final class ViewModel: ObservableObject {
         
-        @Published var categories: [Category] = [Category.mockCategory]
+        var appState: AppState
+        
+        let container: DIContainer
         
         private static let decoder = JSONDecoder()
         private let mealsDBService: TheMealsDBServiceDataPublisher
         private let imageService: ImageServicePublisher
         
-        public init(
-            mealsDBService: TheMealsDBServiceDataPublisher = TheMealsDBService(),
-            imageService: ImageServicePublisher = ImageService()
-        ) {
-            self.mealsDBService = mealsDBService
-            self.imageService = imageService
+        init(container: DIContainer) {
+            self.container = container
+            self.mealsDBService = container.services.mealsDBService
+            self.imageService = container.services.imageService
+            
+            self.appState = container.appState
         }
         
         public func fetchCategories() -> AnyPublisher<[Category], Error> {

@@ -15,8 +15,6 @@ public struct MealDetails: Decodable {
     let category: String
     let area: String
     
-    let imageID: URL?
-    
     let instructions: String
     let ingredients: [String]
 }
@@ -28,8 +26,6 @@ extension MealDetails {
         case id = "idMeal"
         case category = "strCategory"
         case area = "strArea"
-        
-        case imageID = "strMealThumb"
         
         case instructions = "strInstructions"
     }
@@ -46,7 +42,6 @@ extension MealDetails {
         self.id = try container.decode(String.self, forKey: .id)
         self.category = try container.decode(String.self, forKey: .category)
         self.area = try container.decode(String.self, forKey: .area)
-        self.imageID = try container.decode(URL.self, forKey: .imageID)
         
         self.instructions = try container.decode(String.self, forKey: .instructions)
         
@@ -88,7 +83,6 @@ extension MealDetails {
         id: "",
         category: "",
         area: "",
-        imageID: nil,
         instructions: "",
         ingredients: [""])
 }

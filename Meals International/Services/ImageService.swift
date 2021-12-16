@@ -29,9 +29,10 @@ final class ImageService: ImageServicePublisher {
     
     public func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never> {
         // Check cache for image
+        //print("FetchImage cache state: \(String(describing: cache[imageURL])), for URL: \(imageURL)")
         if let image = cache[imageURL] {
             return Future<UIImage, Never> { promise in
-                print("Used Cache")
+                print("Used Cache for: \(imageURL)")
                 return promise(.success(image))
             }
             .eraseToAnyPublisher()
@@ -47,7 +48,7 @@ final class ImageService: ImageServicePublisher {
                     return UIImage()
                 }
                 // Store in cache
-                print("Stored in Cache")
+                print("Stored in Cache: \(imageURL)")
                 cache[imageURL] = compressImage(image)
                 
                 return image

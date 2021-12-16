@@ -38,5 +38,5 @@ extension Category {
         id: "1",
         imageID: nil,
         description: "Tastes like everything.",
-        meals: [Meal(name: "Chicken Kiev", id: 0, imageID: nil, mealDetails: nil)])
+        meals: [Meal.mockMeal])
 }

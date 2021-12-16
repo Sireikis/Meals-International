@@ -14,21 +14,21 @@ extension DetailViewController {
     
     final class ViewModel: ObservableObject {
         
-        @Published var meal: Meal
+        var appState: AppState
 
+        let container: DIContainer
+        
         private static let decoder = JSONDecoder()
         private let mealsDBService: TheMealsDBServiceDataPublisher
         private let imageService: ImageServicePublisher
+ 
         
-        public init(
-            mealsDBService: TheMealsDBServiceDataPublisher = TheMealsDBService(),
-            imageService: ImageServicePublisher = ImageService()
-        ) {
-            self.mealsDBService = mealsDBService
-            self.imageService = imageService
+        init(container: DIContainer) {
+            self.container = container
+            self.mealsDBService = container.services.mealsDBService
+            self.imageService = container.services.imageService
             
-            meal = Meal.mockMeal
-            meal.mealDetails = MealDetails.mockMealDetails
+            self.appState = container.appState
         }
         
         public func fetchMealDetails(for meal: Meal) -> AnyPublisher<MealDetails, Error> {
