@@ -12,9 +12,12 @@ struct DIContainer {
     
     let appState: AppState
     let services: Services
+    #warning("Hide CoreDataStack behind a protocol")
+    let coreDataStack: CoreDataStack
     
-    init(appState: AppState, services: DIContainer.Services) {
+    init(appState: AppState, services: DIContainer.Services, coreDataStack: CoreDataStack) {
         self.appState = appState
         self.services = services
+        self.coreDataStack = coreDataStack
     }
 }

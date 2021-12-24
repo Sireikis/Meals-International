@@ -11,13 +11,8 @@ import UIKit
 
 
 /*
- // TODO: Current cache implementation can take up to 700MB, more if we enter every detail view.
- -Try to compress images.
- 
- // TODO: After compression implementation the usage is down, but can rarely crash at "if let image = cache[imageURL]"
- 
  // TODO: There is a mismatch between the cell's images and the actual image shown. probably has to do with reused cells.
- -This weird popping in and out happens.
+ -This weird popping in and out happens. Doesnt happen on device though.
  */
 protocol ImageServicePublisher {
     func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never>

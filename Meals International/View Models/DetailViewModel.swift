@@ -21,12 +21,13 @@ extension DetailViewController {
         private static let decoder = JSONDecoder()
         private let mealsDBService: TheMealsDBServiceDataPublisher
         private let imageService: ImageServicePublisher
- 
+        private let coreDataStack: CoreDataStack
         
         init(container: DIContainer) {
             self.container = container
             self.mealsDBService = container.services.mealsDBService
             self.imageService = container.services.imageService
+            self.coreDataStack = container.coreDataStack
             
             self.appState = container.appState
         }

@@ -7,7 +7,9 @@
 
 import Foundation
 
-
+/*
+ TODO: How can I have a model and a model object have the same name?
+ */
 public struct Category: Decodable {
     
     let name: String
@@ -26,6 +28,23 @@ extension Category {
         case id = "idCategory"
         case imageID = "strCategoryThumb"
         case description = "strCategoryDescription"
+    }
+}
+
+extension Category {
+    
+    init?(categoryMO: CategoryMO) {
+        
+        guard let name = categoryMO.name else { return nil }
+        guard let id = categoryMO.id else { return nil }
+        guard let meals = categoryMO.meals?.array as? [Meal] else { return nil }
+        
+        self.init(
+            name: name,
+            id: id,
+            imageID: categoryMO.imageID,
+            description: categoryMO.description,
+            meals: meals)
     }
 }
 

@@ -110,7 +110,7 @@ extension TheMealsDBService {
         /// Returns a list of all meals in the given Category
         case filter(name: String)
         /// Returns details about a specific meal
-        case lookUp(id: Int)
+        case lookUp(id: String)
 
         /// Returns URL for a given TheMealsDB endpoint
         public var url: URL {
@@ -120,7 +120,7 @@ extension TheMealsDBService {
             case .filter(let name):
                 return createURL(for: .filter, parameters: ["c" : name])
             case .lookUp(let id):
-                return createURL(for: .lookUp, parameters: ["i" : String(id)])
+                return createURL(for: .lookUp, parameters: ["i" : id])
             }
         }
         

@@ -5,13 +5,14 @@
 //  Created by Ignas Sireikis on 11/26/21.
 //
 
+import CoreData
 import UIKit
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -50,6 +51,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        #warning("!!! CoreDataStack Saving")
+        //CoreDataStack.save()
     }
 }
 
+/*
+ private enum CoreDataStack {
+
+     static var viewContext: NSManagedObjectContext = {
+         let container = NSPersistentContainer(name: "db_model_v1")
+         container.loadPersistentStores { _, error in
+             guard error == nil else {
+                 fatalError("\(#file), \(#function), \(error!.localizedDescription)")
+             }
+         }
+         return container.viewContext
+     }()
+     
+     static func save() {
+         guard viewContext.hasChanges else { return }
+         do {
+             try viewContext.save()
+         } catch {
+             fatalError("\(#file), \(#function), \(error.localizedDescription)")
+         }
+     }
+ }
+ */

@@ -11,7 +11,7 @@ import Foundation
 public struct Meal: Decodable {
     
     let name: String
-    let id: Int
+    let id: String
     
     let imageID: URL?
 
@@ -35,8 +35,8 @@ extension Meal {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.name = try container.decode(String.self, forKey: .name)
-        let idString = try container.decode(String.self, forKey: .id)
-        self.id = Int(idString) ?? 0
+        self.id = try container.decode(String.self, forKey: .id)
+        //self.id = Int(idString) ?? 0
         
         self.imageID = try container.decode(URL.self, forKey: .imageID)
         self.mealDetails = nil
@@ -50,7 +50,7 @@ extension Meal {
     
     static let mockMeal = Meal(
         name: "Loading",
-        id: 0,
+        id: "0",
         imageID: nil,
         mealDetails: MealDetails.mockMealDetails)
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Category" representedClassName="CategoryMO" syncable="YES">
+        <attribute name="footerDescription" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="imageID" optional="YES" attributeType="URI"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Meal" inverseName="category" inverseEntity="Meal"/>
+    </entity>
+    <entity name="Meal" representedClassName="MealMO" syncable="YES">
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imageID" optional="YES" attributeType="URI"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="meals" inverseEntity="Category"/>
+        <relationship name="mealDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MealDetails" inverseName="meal" inverseEntity="MealDetails"/>
+    </entity>
+    <entity name="MealDetails" representedClassName="MealDetailsMO" syncable="YES">
+        <attribute name="area" attributeType="String"/>
+        <attribute name="category" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="ingredients" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[String]"/>
+        <attribute name="instructions" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="meal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meal" inverseName="mealDetails" inverseEntity="Meal"/>
+    </entity>
+    <elements>
+        <element name="Category" positionX="-724.141357421875" positionY="-293.2592163085938" width="128" height="104"/>
+        <element name="Meal" positionX="-445.87548828125" positionY="-353.6002807617188" width="128" height="104"/>
+        <element name="MealDetails" positionX="-204.7178955078125" positionY="-236.0921630859375" width="128" height="134"/>
+    </elements>
+</model>

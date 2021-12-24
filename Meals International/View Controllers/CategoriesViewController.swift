@@ -17,7 +17,6 @@ import UIKit
  
  // TODO: Create loading indicator instead of showing Mock?
  
- 
  // TODO: The following cannot be done because fetchMeals is called 14 times no matter what. Once for each category.
  #warning("Put the reload data in a better place or implement collect!")
  -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
@@ -43,7 +42,20 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
         fetchCategoriesAndMeals()
     }
     
+    /*
+     See Photorama project for some implementation details.
+     */
     private func fetchCategoriesAndMeals() {
+        #warning("Loading is make the tableview cells section look like JSON. Why?")
+//        let categories = CategoryMO.loadSavedData()
+//
+//        if !categories.isEmpty {
+//            print("Data Found")
+//            //print(categories)
+//            viewModel.appState.categories = categories
+//            return
+//        }
+        
         viewModel.fetchCategories()
             .mapError { [unowned self] error -> TheMealsDBService.MealsError in
                 switch error {
@@ -60,6 +72,11 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
             }
             .replaceError(with: [Category.mockCategory])
             .sink(receiveValue: { [unowned self] categories in
+//                for category in categories {
+//                    CategoryMO.save(category: category, inViewContext: CoreDataStack.viewContext)
+//                }
+//                print("CoreData Changes?: \(CoreDataStack.viewContext.hasChanges)")
+                
                 viewModel.appState.categories = categories
                 fetchMeals()
             })
@@ -87,6 +104,9 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
                     print("Meals fetch Completion: \(completion)")
                 } receiveValue: { [unowned self] meals in
                     viewModel.appState.categories[index].meals = meals
+                    
+                    //CategoryMO.save(category: category, inViewContext: CoreDataStack.viewContext)
+                    
                     tableView.reloadData()
                 }
                 .store(in: &subscriptions)
