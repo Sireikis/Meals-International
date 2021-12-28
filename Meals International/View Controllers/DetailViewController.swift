@@ -8,11 +8,7 @@
 import Combine
 import UIKit
 
-/*
- // TODO: Move all the set helper functions into ViewModel?
- -Can just pass the indexPath in?
- -What other methods should go into the ViewModel?
- */
+
 class DetailViewController: UIViewController {
     
     var viewModel: DetailViewController.ViewModel!
@@ -39,6 +35,9 @@ class DetailViewController: UIViewController {
         fetchMealDetails()
     }
     
+    // MARK: - View Setup
+    
+    /// Configures view appearance
     private func configureView() {
         configureImage()
         configureIngredientsBox()
@@ -58,6 +57,11 @@ class DetailViewController: UIViewController {
         mealInstructionsBox.roundedBoxWithBorderAndShadow()
     }
     
+    // MARK: - API Calls
+    
+    // I need comments here
+#warning("I should save MealDetails into core data here!")
+#warning("I should also check if Core Data has Meal Details before this method is called!")
     private func fetchMealDetails() {
         viewModel.fetchMealDetails(for: meal)
             .mapError { [unowned self] error -> TheMealsDBService.MealsError in
@@ -76,13 +80,13 @@ class DetailViewController: UIViewController {
             }
             .replaceError(with: MealDetails.mockMealDetails)
             .sink(receiveValue: { [unowned self] mealDetails in
-                let section = indexPath.section
-                let row = indexPath.row
+
+                viewModel.update(mealDetails: mealDetails, at: indexPath)
                 
-                viewModel.appState.categories[section].meals[row].mealDetails = mealDetails
                 meal.mealDetails = mealDetails
                 
                 if let imageURL = meal.imageID {
+#warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
                     viewModel.fetchImage(from: imageURL)
                         .sink { image in
                             mealImage.image = image
@@ -94,6 +98,9 @@ class DetailViewController: UIViewController {
             .store(in: &subscriptions)
     }
     
+    // MARK: - Internal
+    
+    /// Presents a UIAlert with the given title and description.
     private func showAlert(_ title: String, description: String? = nil) {
         alert(title: title, text: description)
             .sink(receiveValue: { _ in })

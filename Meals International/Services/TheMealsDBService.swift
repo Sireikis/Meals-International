@@ -9,9 +9,6 @@ import Combine
 import Foundation
 
 
-/*
- // TODO: Re-evaluate error handling after publisher changes
- */
 public protocol TheMealsDBServiceDataPublisher {
     func categories() -> AnyPublisher<[Category], Error>
     func filterMeals(for category: Category) -> AnyPublisher<[Meal], Error>

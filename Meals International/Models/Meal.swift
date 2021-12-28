@@ -27,6 +27,13 @@ extension Meal {
     }
 }
 
+extension Meal: Equatable {
+    
+    public static func == (lhs: Meal, rhs: Meal) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 // MARK: - Decoding Strategy
 
 extension Meal {
@@ -36,7 +43,6 @@ extension Meal {
         
         self.name = try container.decode(String.self, forKey: .name)
         self.id = try container.decode(String.self, forKey: .id)
-        //self.id = Int(idString) ?? 0
         
         self.imageID = try container.decode(URL.self, forKey: .imageID)
         self.mealDetails = nil

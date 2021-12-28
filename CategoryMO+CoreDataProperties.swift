@@ -16,10 +16,10 @@ extension CategoryMO {
         return NSFetchRequest<CategoryMO>(entityName: "Category")
     }
 
-    @NSManaged public var footerDescription: String?
-    @NSManaged public var id: String?
+    @NSManaged public var footerDescription: String
+    @NSManaged public var id: String
     @NSManaged public var imageID: URL?
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var meals: NSOrderedSet?
 
 }

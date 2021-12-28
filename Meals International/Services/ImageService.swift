@@ -12,7 +12,8 @@ import UIKit
 
 /*
  // TODO: There is a mismatch between the cell's images and the actual image shown. probably has to do with reused cells.
- -This weird popping in and out happens. Doesnt happen on device though.
+ -This weird popping in and out happens. Does seem to happen on device as well, rarely. Might be dependent on available
+ -resources at the point in time when the request is made.
  */
 protocol ImageServicePublisher {
     func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never>
@@ -21,10 +22,11 @@ protocol ImageServicePublisher {
 final class ImageService: ImageServicePublisher {
     
     var cache: [URL: UIImage] = [:]
-    
+    #warning("I should save the image into core data at some point in this method. I should also load into the cache if not in cache.")
+    /// Check if image is already in cache, return if so.
+    /// Otherwise, create a fetch request, retrieve that image, and save it into the cache.
     public func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never> {
         // Check cache for image
-        //print("FetchImage cache state: \(String(describing: cache[imageURL])), for URL: \(imageURL)")
         if let image = cache[imageURL] {
             return Future<UIImage, Never> { promise in
                 print("Used Cache for: \(imageURL)")
@@ -55,7 +57,7 @@ final class ImageService: ImageServicePublisher {
         return publisher
     }
     
-    // Reduces image quality to save space.
+    /// Reduces image quality to save space.
     func compressImage(_ image: UIImage) -> UIImage {
         let compressedImage = image.jpegData(compressionQuality: 0.01)
         

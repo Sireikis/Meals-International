@@ -16,12 +16,12 @@ extension MealDetailsMO {
         return NSFetchRequest<MealDetailsMO>(entityName: "MealDetails")
     }
 
-    @NSManaged public var area: String?
-    @NSManaged public var category: String?
-    @NSManaged public var id: String?
-    @NSManaged public var ingredients: [String]?
-    @NSManaged public var instructions: String?
-    @NSManaged public var name: String?
+    @NSManaged public var area: String
+    @NSManaged public var category: String
+    @NSManaged public var id: String
+    @NSManaged public var ingredients: [String]
+    @NSManaged public var instructions: String
+    @NSManaged public var name: String
     @NSManaged public var meal: MealMO?
 
 }

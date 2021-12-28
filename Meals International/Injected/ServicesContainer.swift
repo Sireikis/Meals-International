@@ -17,12 +17,5 @@ extension DIContainer {
             self.mealsDBService = mealsDBService
             self.imageService = imageService
         }
-        
-        // TODO: Create stubs for each service, for testing purposes?
-//        static var stub: Self {
-//            .init(
-//                mealsDBService: TheMealsDBServiceDataPublisher(),
-//                imageService: ImageServicePublisher())
-//        }
     }
 }

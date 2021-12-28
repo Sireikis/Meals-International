@@ -3,13 +3,13 @@
     <entity name="Category" representedClassName="CategoryMO" syncable="YES">
         <attribute name="footerDescription" attributeType="String"/>
         <attribute name="id" attributeType="String"/>
-        <attribute name="imageID" optional="YES" attributeType="URI"/>
+        <attribute name="imageID" attributeType="URI"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Meal" inverseName="category" inverseEntity="Meal"/>
     </entity>
     <entity name="Meal" representedClassName="MealMO" syncable="YES">
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="imageID" optional="YES" attributeType="URI"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="imageID" attributeType="URI"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="meals" inverseEntity="Category"/>
         <relationship name="mealDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MealDetails" inverseName="meal" inverseEntity="MealDetails"/>

@@ -11,7 +11,7 @@ import UIKit
 
 
 class CategoriesDataSource: NSObject, UITableViewDataSource {
-    // App-wide datasource accessed via viewModel
+
     var viewModel: CategoriesViewController.ViewModel!
     
     var subscriptions = Set<AnyCancellable>()
@@ -38,12 +38,16 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
 
         cell.mealLabel.text = item.name
         
+#warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
         if let imageID = item.imageID {
             viewModel.fetchImage(from: imageID)
-                .sink(receiveValue: { image in
-                    print("Image ")
+                .sink { completion in
+                    // Error handling here
+                    print("MealCell Image completion: \(completion)")
+                } receiveValue: { image in
+                    print("Fetch MealCell Image")
                     cell.mealImage.image = image
-                })
+                }
                 .store(in: &subscriptions)
         }
         

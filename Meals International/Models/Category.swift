@@ -6,10 +6,9 @@
 //
 
 import Foundation
+import CoreData
 
-/*
- TODO: How can I have a model and a model object have the same name?
- */
+
 public struct Category: Decodable {
     
     let name: String
@@ -31,20 +30,10 @@ extension Category {
     }
 }
 
-extension Category {
+extension Category: Equatable {
     
-    init?(categoryMO: CategoryMO) {
-        
-        guard let name = categoryMO.name else { return nil }
-        guard let id = categoryMO.id else { return nil }
-        guard let meals = categoryMO.meals?.array as? [Meal] else { return nil }
-        
-        self.init(
-            name: name,
-            id: id,
-            imageID: categoryMO.imageID,
-            description: categoryMO.description,
-            meals: meals)
+    public static func == (lhs: Category, rhs: Category) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 
@@ -53,8 +42,8 @@ extension Category {
 extension Category {
     
     static let mockCategory = Category(
-        name: "Chicken",
-        id: "1",
+        name: "Mock Chicken",
+        id: "-1",
         imageID: nil,
         description: "Tastes like everything.",
         meals: [Meal.mockMeal])

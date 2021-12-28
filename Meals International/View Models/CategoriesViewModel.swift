@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CoreData
 import Foundation
 import UIKit
 
@@ -21,7 +22,7 @@ extension CategoriesViewController {
         private static let decoder = JSONDecoder()
         private let mealsDBService: TheMealsDBServiceDataPublisher
         private let imageService: ImageServicePublisher
-        private let coreDataStack: CoreDataStack
+        public let coreDataStack: CoreDataStack
         
         init(container: DIContainer) {
             self.container = container
@@ -32,7 +33,14 @@ extension CategoriesViewController {
             self.appState = container.appState
         }
         
-        #warning("Check if Core Data contains info first!")
+        // MARK: - Model Manipulation
+        
+        public func updateModel(meals: [Meal], at index: Int) {
+            appState.categories[index].meals = meals
+        }
+        
+        // MARK: - API Calls
+        
         public func fetchCategories() -> AnyPublisher<[Category], Error> {
             mealsDBService.categories()
         }
@@ -43,6 +51,44 @@ extension CategoriesViewController {
         
         public func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never> {
             imageService.fetchImage(from: imageURL)
+        }
+        
+        // MARK: - Core Data Methods
+        
+        /// Checks if Core Data has any CategoryMO's stored.
+        public func coreDataHasData() -> Bool {
+            let fetchRequest: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
+            let count = try? coreDataStack.managedContext.count(for: fetchRequest)
+
+            guard let categoryCount = count else { return false }
+            
+            return categoryCount > 0
+        }
+        /// Updates the appState using all CategoryMO's in Core Data.
+        public func updateAppState() {
+            let fetchRequest: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
+ 
+            let sectionNameSort = NSSortDescriptor(key: #keyPath(CategoryMO.name), ascending: true)
+            fetchRequest.sortDescriptors = [sectionNameSort]
+            
+            if let categories = try? coreDataStack.managedContext.fetch(fetchRequest) {
+                appState.categories = categories.transformToCategories()
+            }
+        }
+        /// Save a Category from the given index into the current view context.
+        public func saveCategoryMO(at index: Int) {
+            CategoryMO.save(
+                category: appState.categories[index],
+                intoViewContext: coreDataStack.managedContext)
+        }
+        /// Save all Meals from the given Category index into the current view context.
+        public func saveMealMO(meals: [Meal], at index: Int) {
+            for meal in meals {
+                MealMO.save(
+                    meal: meal,
+                    in: appState.categories[index],
+                    intoViewContext: coreDataStack.managedContext)
+            }
         }
     }
 }

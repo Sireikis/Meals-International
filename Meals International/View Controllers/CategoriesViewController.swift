@@ -6,11 +6,13 @@
 //
 
 import Combine
+import CoreData
 import UIKit
 
 
 /*
  // TODO: Need to add Persistence and Tests!
+ -Add persistence for Photos!
  
  // TODO: How can we handle errors when fetching a meal?
  -Multiple requests are made, so we could potentially be making multiple calls to show a UIAlert.
@@ -21,8 +23,20 @@ import UIKit
  #warning("Put the reload data in a better place or implement collect!")
  -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
  to fetch once for each category.
+ 
+ // TODO: I'm getting tons of network errors because I don't store actual photo data, I fetch them then store after fetch.
+ -I should add photos in the form of binary data to Core Data.
+ 
+ // TODO: Should Core Data checks be done here or in a view Model? Or in something separate?
+ 
+ // TODO: Add MealDetails and Images to Core Data
+ 
+ // TODO: FetchMeals isn't handling errors.
+ 
+ // TODO: Current image fetching code needs error handling (some default image?) and should pull from saved images.
  */
-class CategoriesViewController: UIViewController, UITableViewDelegate {
+#warning("Notice everytime we mention that an image should be saved to Core Data and pulled from there, it calls an ImageService method. This should be handled there.")
+class CategoriesViewController: UIViewController {
     
     var viewModel: CategoriesViewController.ViewModel!
     
@@ -39,23 +53,26 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
         
         tableView.delegate = self
         
-        fetchCategoriesAndMeals()
+        fetchCategoriesAndMealsIfNeeded()
     }
     
-    /*
-     See Photorama project for some implementation details.
-     */
+    // MARK: - API Calls
+    
+    /// Checks if Core Data has any CategoryMO data, if it does it loads it and updates appState.
+    /// If there is no Core Data, performs a fetch request and saves that data.
+    private func fetchCategoriesAndMealsIfNeeded() {
+        if viewModel.coreDataHasData() {
+            viewModel.updateAppState()
+        } else {
+            print("CategoriesViewController - No Core Data. Fetched Categories and Meals.")
+            fetchCategoriesAndMeals()
+        }
+    }
+    
+    /// Calls the API for Category data that will be used to update the current appState.
+    /// After the call succeeds, calls the API to fetch all Meals.
+    /// If an error is encountered, a UIAlert is presented.
     private func fetchCategoriesAndMeals() {
-        #warning("Loading is make the tableview cells section look like JSON. Why?")
-//        let categories = CategoryMO.loadSavedData()
-//
-//        if !categories.isEmpty {
-//            print("Data Found")
-//            //print(categories)
-//            viewModel.appState.categories = categories
-//            return
-//        }
-        
         viewModel.fetchCategories()
             .mapError { [unowned self] error -> TheMealsDBService.MealsError in
                 switch error {
@@ -72,40 +89,28 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
             }
             .replaceError(with: [Category.mockCategory])
             .sink(receiveValue: { [unowned self] categories in
-//                for category in categories {
-//                    CategoryMO.save(category: category, inViewContext: CoreDataStack.viewContext)
-//                }
-//                print("CoreData Changes?: \(CoreDataStack.viewContext.hasChanges)")
-                
+                print("CategoriesViewController - fetchCategoriesAndMeals: Fetching Categories")
                 viewModel.appState.categories = categories
+                
                 fetchMeals()
             })
             .store(in: &subscriptions)
     }
     
+    /// Calls the API for Meal data for every Category and updates the current appState.
+    /// Saves the current appState data into Core Data then reloads the tableView.
     private func fetchMeals() {
         for (index, category) in viewModel.appState.categories.enumerated() {
             viewModel.fetchMeals(for: category)
-//                .mapError { [unowned self] error -> TheMealsDBService.Error in
-//                    switch error {
-//                    case is URLError:
-//                        showAlert("Network Error.", description: "Error Accessing Server.")
-//                        return .network
-//                    case is DecodingError:
-//                        showAlert("Decoding Error.", description: "Error Parsing.")
-//                        return .parsing
-//                    default:
-//                        showAlert("Unknown Error.", description: "")
-//                        return error as? TheMealsDBService.Error ?? .unknown
-//                    }
-//                }
-                //.delay(for: .seconds(0.5), scheduler: DispatchQueue.main)
                 .sink { completion in
                     print("Meals fetch Completion: \(completion)")
                 } receiveValue: { [unowned self] meals in
-                    viewModel.appState.categories[index].meals = meals
-                    
-                    //CategoryMO.save(category: category, inViewContext: CoreDataStack.viewContext)
+                    print("CategoriesViewController - fetchMeals: Fetching Meals")
+
+                    viewModel.updateModel(meals: meals, at: index)
+             
+                    viewModel.saveCategoryMO(at: index)
+                    viewModel.saveMealMO(meals: meals, at: index)
                     
                     tableView.reloadData()
                 }
@@ -113,6 +118,9 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
         }
     }
     
+    // MARK: - Internal
+    
+    /// Presents a UIAlert with the given title and description.
     private func showAlert(_ title: String, description: String? = nil) {
         alert(title: title, text: description)
             .sink(receiveValue: { _ in })
@@ -145,7 +153,7 @@ class CategoriesViewController: UIViewController, UITableViewDelegate {
 
 // MARK: - TableViewController Delegate Methods
 
-extension CategoriesViewController {
+extension CategoriesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeaderLabelView = UIView()
@@ -153,15 +161,20 @@ extension CategoriesViewController {
         
         let sectionHeaderImageView = UIImageView()
    
+        #warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
         if let imageURL = viewModel.appState.categories[section].imageID {
             viewModel.fetchImage(from: imageURL)
                 .sink { completion in
                     // Error handling here
                     print("Image header completion: \(completion)")
                 } receiveValue: { image in
+                    print("Fetched Section Header Image")
                     sectionHeaderImageView.image = image
                 }
                 .store(in: &subscriptions)
+        } else {
+            print("No image")
+            //sectionHeaderImageView.image = UIImage()
         }
         
         sectionHeaderImageView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)

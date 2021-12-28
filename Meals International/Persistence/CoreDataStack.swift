@@ -39,7 +39,6 @@ class CoreDataStack {
         do {
             try managedContext.save()
         } catch let error as NSError {
-            print("Unresolved error \(error), \(error.userInfo)")
             fatalError("Fatal Error: \(#file), \(#function), \(error.localizedDescription)")
         }
     }
