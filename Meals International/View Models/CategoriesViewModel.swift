@@ -48,9 +48,9 @@ extension CategoriesViewController {
         public func fetchMeals(for category: Category) -> AnyPublisher<[Meal], Error> {
             mealsDBService.filterMeals(for: category)
         }
-        
-        public func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never> {
-            imageService.fetchImage(from: imageURL)
+      
+        public func fetchImage(imageType: ImageService.ImageType) -> AnyPublisher<UIImage, Never> {
+            imageService.fetchImage(for: imageType)
         }
         
         // MARK: - Core Data Methods

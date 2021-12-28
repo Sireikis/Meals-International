@@ -2,7 +2,7 @@
 //  MealMO+CoreDataProperties.swift
 //  Meals International
 //
-//  Created by Ignas Sireikis on 12/27/21.
+//  Created by Ignas Sireikis on 12/28/21.
 //
 //
 
@@ -19,6 +19,7 @@ extension MealMO {
     @NSManaged public var id: String
     @NSManaged public var imageID: URL?
     @NSManaged public var name: String
+    @NSManaged public var photoData: Data?
     @NSManaged public var category: CategoryMO?
     @NSManaged public var mealDetails: MealDetailsMO?
 

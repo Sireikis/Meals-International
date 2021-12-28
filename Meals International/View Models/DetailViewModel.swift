@@ -44,10 +44,8 @@ extension DetailViewController {
             mealsDBService.lookUp(meal: meal)
         }
         
-        public func fetchImage(from imageURL: URL) -> AnyPublisher<UIImage, Never> {
-            imageService.fetchImage(from: imageURL)
+        public func fetchImage(imageType: ImageService.ImageType) -> AnyPublisher<UIImage, Never> {
+            imageService.fetchImage(for: imageType)
         }
-        
-        
     }
 }

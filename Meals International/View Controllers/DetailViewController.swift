@@ -87,7 +87,7 @@ class DetailViewController: UIViewController {
                 
                 if let imageURL = meal.imageID {
 #warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
-                    viewModel.fetchImage(from: imageURL)
+                    viewModel.fetchImage(imageType: .meal(imageURL))
                         .sink { image in
                             mealImage.image = image
                         }

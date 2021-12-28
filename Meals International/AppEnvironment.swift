@@ -19,15 +19,15 @@ extension AppEnvironment {
         let appState = AppState()
         
         let coreDataStack = CoreDataStack(modelName: "db_model_v1")
-        let services = configureServices()
+        let services = configureServices(coreDataStack: coreDataStack)
         let diContainer = DIContainer(appState: appState, services: services, coreDataStack: coreDataStack)
         
         return AppEnvironment(container: diContainer)
     }
     
-    private static func configureServices() -> DIContainer.Services {
+    private static func configureServices(coreDataStack: CoreDataStack) -> DIContainer.Services {
         let mealsDBService = TheMealsDBService()
-        let imageService = ImageService()
+        let imageService = ImageService(coreDataStack: coreDataStack)
         
         return .init(mealsDBService: mealsDBService, imageService: imageService)
     }

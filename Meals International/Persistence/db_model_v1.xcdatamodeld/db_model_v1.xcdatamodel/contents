@@ -5,12 +5,14 @@
         <attribute name="id" attributeType="String"/>
         <attribute name="imageID" attributeType="URI"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="meals" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Meal" inverseName="category" inverseEntity="Meal"/>
     </entity>
     <entity name="Meal" representedClassName="MealMO" syncable="YES">
         <attribute name="id" attributeType="String"/>
         <attribute name="imageID" attributeType="URI"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="meals" inverseEntity="Category"/>
         <relationship name="mealDetails" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MealDetails" inverseName="meal" inverseEntity="MealDetails"/>
     </entity>
@@ -24,8 +26,8 @@
         <relationship name="meal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Meal" inverseName="mealDetails" inverseEntity="Meal"/>
     </entity>
     <elements>
-        <element name="Category" positionX="-724.141357421875" positionY="-293.2592163085938" width="128" height="104"/>
-        <element name="Meal" positionX="-445.87548828125" positionY="-353.6002807617188" width="128" height="104"/>
+        <element name="Category" positionX="-724.141357421875" positionY="-293.2592163085938" width="128" height="119"/>
+        <element name="Meal" positionX="-445.87548828125" positionY="-353.6002807617188" width="128" height="119"/>
         <element name="MealDetails" positionX="-204.7178955078125" positionY="-236.0921630859375" width="128" height="134"/>
     </elements>
 </model>

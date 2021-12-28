@@ -34,18 +34,18 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
             fatalError("Unable to deque MealCell.")
         }
         
-        let item = viewModel.appState.categories[indexPath.section].meals[indexPath.row]
+        let meal = viewModel.appState.categories[indexPath.section].meals[indexPath.row]
 
-        cell.mealLabel.text = item.name
+        cell.mealLabel.text = meal.name
         
-#warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
-        if let imageID = item.imageID {
-            viewModel.fetchImage(from: imageID)
+#warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
+        if let imageURL = meal.imageID {
+            viewModel.fetchImage(imageType: .meal(imageURL))
                 .sink { completion in
                     // Error handling here
                     print("MealCell Image completion: \(completion)")
                 } receiveValue: { image in
-                    print("Fetch MealCell Image")
+                    print("CategoriesDataSource - Fetch MealCell Image")
                     cell.mealImage.image = image
                 }
                 .store(in: &subscriptions)

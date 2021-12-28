@@ -2,7 +2,7 @@
 //  CategoryMO+CoreDataProperties.swift
 //  Meals International
 //
-//  Created by Ignas Sireikis on 12/24/21.
+//  Created by Ignas Sireikis on 12/28/21.
 //
 //
 
@@ -20,6 +20,7 @@ extension CategoryMO {
     @NSManaged public var id: String
     @NSManaged public var imageID: URL?
     @NSManaged public var name: String
+    @NSManaged public var photoData: Data?
     @NSManaged public var meals: NSOrderedSet?
 
 }

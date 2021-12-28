@@ -29,13 +29,12 @@ import UIKit
  
  // TODO: Should Core Data checks be done here or in a view Model? Or in something separate?
  
- // TODO: Add MealDetails and Images to Core Data
+ // TODO: Add MealDetails to Core Data
  
  // TODO: FetchMeals isn't handling errors.
  
  // TODO: Current image fetching code needs error handling (some default image?) and should pull from saved images.
  */
-#warning("Notice everytime we mention that an image should be saved to Core Data and pulled from there, it calls an ImageService method. This should be handled there.")
 class CategoriesViewController: UIViewController {
     
     var viewModel: CategoriesViewController.ViewModel!
@@ -160,10 +159,12 @@ extension CategoriesViewController: UITableViewDelegate {
         sectionHeaderLabelView.backgroundColor = .white
         
         let sectionHeaderImageView = UIImageView()
+        
+        let category = viewModel.appState.categories[section]
    
-        #warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
-        if let imageURL = viewModel.appState.categories[section].imageID {
-            viewModel.fetchImage(from: imageURL)
+#warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
+        if let imageURL = category.imageID {
+            viewModel.fetchImage(imageType: .category(imageURL))
                 .sink { completion in
                     // Error handling here
                     print("Image header completion: \(completion)")
