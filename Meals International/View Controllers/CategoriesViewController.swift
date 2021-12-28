@@ -11,8 +11,7 @@ import UIKit
 
 
 /*
- // TODO: Need to add Persistence and Tests!
- -Add persistence for Photos!
+ // TODO: Need to add Tests!
  
  // TODO: How can we handle errors when fetching a meal?
  -Multiple requests are made, so we could potentially be making multiple calls to show a UIAlert.
@@ -24,12 +23,7 @@ import UIKit
  -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
  to fetch once for each category.
  
- // TODO: I'm getting tons of network errors because I don't store actual photo data, I fetch them then store after fetch.
- -I should add photos in the form of binary data to Core Data.
- 
  // TODO: Should Core Data checks be done here or in a view Model? Or in something separate?
- 
- // TODO: Add MealDetails to Core Data
  
  // TODO: FetchMeals isn't handling errors.
  
@@ -201,5 +195,9 @@ extension CategoriesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
         return 44
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

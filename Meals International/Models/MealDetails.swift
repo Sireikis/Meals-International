@@ -31,6 +31,13 @@ extension MealDetails {
     }
 }
 
+extension MealDetails: Equatable {
+    
+    public static func == (lhs: MealDetails, rhs: MealDetails) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 // MARK: - Decoding Strategy
 
 extension MealDetails {

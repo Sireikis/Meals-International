@@ -11,7 +11,7 @@ import CoreData
 
 @objc(MealMO)
 public class MealMO: NSManagedObject {
-    /// Save a Meal into a Category in the given view context Core Data.
+    /// Save a Meal into a Category in the given Core Data view context.
     static func save(meal: Meal, in category: Category, intoViewContext viewContext: NSManagedObjectContext) {
         // Check that Category is not Mock, so we don't overwrite valid data with mock data.
         guard category != Category.mockCategory else { return }
@@ -30,7 +30,7 @@ public class MealMO: NSManagedObject {
          Use the viewContext to try to execute the fetch request. If it succeeds, that
          means the Meal already exists, so update it with the values from the passed-in Meal.
          
-         THis implementation does not account for a meal being moved to a different Category.
+         This implementation does not account for a meal being moved to a different Category.
          */
         if let results = try? viewContext.fetch(mealFetchRequest),
            let existing = results.first as? MealMO {
@@ -41,7 +41,7 @@ public class MealMO: NSManagedObject {
             
         } else {
             /*
-             Otherwise, if the Meal does not exist yet, create a new Category with
+             Otherwise, if the Meal does not exist yet, create a new Meal with
              the values from the passed-in Meal.
              
              Meals are saved and linked to a CategoryMO here.
@@ -78,7 +78,7 @@ extension Collection where Element == MealMO {
                 name: mealMO.name,
                 id: mealMO.id,
                 imageID: mealMO.imageID,
-                mealDetails: nil)
+                mealDetails: mealMO.mealDetails?.transformToMealDetails())
             
             return meal
         }

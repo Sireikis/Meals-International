@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureView()
-        fetchMealDetails()
+        fetchMealDetailsIfNeeded()
     }
     
     // MARK: - View Setup
@@ -59,6 +59,19 @@ class DetailViewController: UIViewController {
     
     // MARK: - API Calls
     
+    /// Checks if Core Data has any MealDetailsMO data, if it does it loads it and updates appState.
+    /// If there is no Core Data, performs a fetch request and saves that data.
+    public func fetchMealDetailsIfNeeded() {
+        if viewModel.coreDataHasData(for: meal) {
+            print("DetailViewController - Has Core Data. Fetched MealDetails.")
+            viewModel.updateAppState(for: indexPath)
+            reset()
+        } else {
+            print("DetailViewController - No Core Data. Fetched MealDetails.")
+            fetchMealDetails()
+        }
+    }
+    
     // I need comments here
 #warning("I should save MealDetails into core data here!")
 #warning("I should also check if Core Data has Meal Details before this method is called!")
@@ -81,18 +94,11 @@ class DetailViewController: UIViewController {
             .replaceError(with: MealDetails.mockMealDetails)
             .sink(receiveValue: { [unowned self] mealDetails in
 
-                viewModel.update(mealDetails: mealDetails, at: indexPath)
+                viewModel.updateModel(mealDetails: mealDetails, at: indexPath)
+                viewModel.saveMealDetailsMO(at: indexPath)
                 
                 meal.mealDetails = mealDetails
-                
-                if let imageURL = meal.imageID {
-#warning("Need to update this to pull from Core Data saved Binary images before we fetch. Also need error handling.")
-                    viewModel.fetchImage(imageType: .meal(imageURL))
-                        .sink { image in
-                            mealImage.image = image
-                        }
-                        .store(in: &subscriptions)
-                }
+            
                 reset()
             })
             .store(in: &subscriptions)
@@ -109,6 +115,7 @@ class DetailViewController: UIViewController {
     
     /// Updates UI with current meal Info
     private func reset() {
+        setImage()
         setTitle()
         setSubtitle()
         setIngredients()
@@ -116,6 +123,17 @@ class DetailViewController: UIViewController {
     }
     
 // MARK: - Helper Functions
+    
+    #warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
+    private func setImage() {
+        if let imageURL = meal.imageID {
+            viewModel.fetchImage(imageType: .meal(imageURL))
+                .sink { [unowned self] image in
+                    mealImage.image = image
+                }
+                .store(in: &subscriptions)
+        }
+    }
     
     private func setTitle() {
         if let mealDetails = meal.mealDetails {

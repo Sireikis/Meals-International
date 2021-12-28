@@ -15,7 +15,7 @@ public class CategoryMO: NSManagedObject {
 }
 
 extension CategoryMO {
-    /// Save a Category into the given view context Core Data.
+    /// Save a Category into the given Core Data view context.
     static func save(category: Category, intoViewContext viewContext: NSManagedObjectContext) {
         // Check that Category is not Mock, so we don't overwrite valid data with mock data.
         guard category != Category.mockCategory else { return }
