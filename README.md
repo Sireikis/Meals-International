@@ -15,12 +15,12 @@ The UI itself is a UITableViewController with each cell leading to a custom Deta
 
 ## Things to Improve ##
 
-Markup : * Currently this project is missing tests. 
-         * Error handling could be refined to deal with specific errors in a way that creates a better user experience, rather than just showing an alert.
-         * We reload the tableView a number of times equal to the number of categories, which is currently 14.
-         * The catch blocks for attempting to save the Core Data context ignore errors.
-            * Placing fatalError calls into these catch blocks crash the app. Without them the app runs fine. May be this hints at some multithreading issue?
-         * Fetches could be made asynchronous, however the largest load seems to be during first time startup, so maybe the current implementation is fine?
-         * The fetchImage method in ImageService may benefit from BatchUpdate or some sort of implementation that performs Core Data reads and write in batches rather than one at a time.
-         * Attempted implementation of NSFetchedResultsControlled along with decoding straight into Core Data objects. My implementation seemed to be overly complicated and harder to work with.
-            * It can be argued that the current implementation is better suited for applications that perform edits to data but don't necessarily save those edits into Core Data. So the current structure doesn't matched the intended function, but is easier to work with -- perhaps due to familiarity/habit.
+* Currently this project is missing tests. 
+* Error handling could be refined to deal with specific errors in a way that creates a better user experience, rather than just showing an alert.
+* We reload the tableView a number of times equal to the number of categories, which is currently 14.
+* The catch blocks for attempting to save the Core Data context ignore errors.
+    * Placing fatalError calls into these catch blocks crash the app. Without them the app runs fine. May be this hints at some multithreading issue?
+* Fetches could be made asynchronous, however the largest load seems to be during first time startup, so maybe the current implementation is fine?
+* The fetchImage method in ImageService may benefit from BatchUpdate or some sort of implementation that performs Core Data reads and write in batches rather than one at a time.
+* Attempted implementation of NSFetchedResultsControlled along with decoding straight into Core Data objects. My implementation seemed to be overly complicated and harder to work with.
+    * It can be argued that the current implementation is better suited for applications that perform edits to data but don't necessarily save those edits into Core Data. So the current structure doesn't matched the intended function, but is easier to work with -- perhaps due to familiarity/habit.
