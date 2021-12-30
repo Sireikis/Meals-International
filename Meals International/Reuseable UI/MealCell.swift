@@ -13,4 +13,5 @@ class MealCell: UITableViewCell {
     
     @IBOutlet var mealImage: UIImageView!
     @IBOutlet var mealLabel: UILabel!
+    @IBOutlet var mealImageActivityStatus: UIActivityIndicatorView!
 }

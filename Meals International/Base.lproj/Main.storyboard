@@ -37,19 +37,27 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="3To-Xi-2Na" userLabel="Image Activity Indicator">
+                                            <rect key="frame" x="0.0" y="0.0" width="44" height="44.5"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="3To-Xi-2Na" secondAttribute="bottom" id="4MH-Kr-pml"/>
+                                        <constraint firstItem="3To-Xi-2Na" firstAttribute="trailing" secondItem="TaQ-Tw-xi4" secondAttribute="trailing" id="8Yo-vT-gDQ"/>
                                         <constraint firstItem="TaQ-Tw-xi4" firstAttribute="top" secondItem="Yen-81-VKO" secondAttribute="top" id="9lk-FL-lqf"/>
                                         <constraint firstItem="s6Z-bE-0jf" firstAttribute="leading" secondItem="TaQ-Tw-xi4" secondAttribute="trailing" constant="10" id="IiJ-ck-WFM"/>
                                         <constraint firstItem="TaQ-Tw-xi4" firstAttribute="leading" secondItem="Yen-81-VKO" secondAttribute="leading" id="NvH-NJ-3qp"/>
                                         <constraint firstAttribute="bottom" secondItem="TaQ-Tw-xi4" secondAttribute="bottom" id="VVb-8u-ayh"/>
+                                        <constraint firstItem="3To-Xi-2Na" firstAttribute="leading" secondItem="TaQ-Tw-xi4" secondAttribute="leading" id="XJ8-bP-W34"/>
                                         <constraint firstItem="s6Z-bE-0jf" firstAttribute="centerY" secondItem="Yen-81-VKO" secondAttribute="centerY" id="cxW-M4-xL4"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="s6Z-bE-0jf" secondAttribute="trailing" constant="10" id="ng8-Qs-TeM"/>
                                         <constraint firstItem="s6Z-bE-0jf" firstAttribute="centerX" secondItem="Yen-81-VKO" secondAttribute="centerX" id="qFl-IO-YNb"/>
+                                        <constraint firstItem="3To-Xi-2Na" firstAttribute="top" secondItem="Yen-81-VKO" secondAttribute="top" id="y9F-qA-Hba"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="mealImage" destination="TaQ-Tw-xi4" id="MBP-Xv-cMf"/>
+                                    <outlet property="mealImageActivityStatus" destination="3To-Xi-2Na" id="fO2-F9-bvq"/>
                                     <outlet property="mealLabel" destination="s6Z-bE-0jf" id="Dje-Cd-ROc"/>
                                     <segue destination="co6-dC-4hZ" kind="show" identifier="showMealDetails" id="eDt-BH-Uaa"/>
                                 </connections>

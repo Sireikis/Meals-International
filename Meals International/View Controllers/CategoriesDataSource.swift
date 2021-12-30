@@ -37,8 +37,13 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
         let meal = viewModel.appState.categories[indexPath.section].meals[indexPath.row]
 
         cell.mealLabel.text = meal.name
+        cell.mealImageActivityStatus.startAnimating()
+        // Prevents a MealCell from being assigned the wrong image and then switching into the right one,
+        // creating the popping visual bug.
+        cell.mealImage.image = UIImage()
         
 #warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
+#warning("I might be better off actually making the ImageService capable of failing, so that I can respond to the failure condition.")
         if let imageURL = meal.imageID {
             viewModel.fetchImage(imageType: .meal(imageURL))
                 .sink { completion in
@@ -47,6 +52,11 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
                 } receiveValue: { image in
                     print("CategoriesDataSource - Fetch MealCell Image")
                     cell.mealImage.image = image
+                 
+                    if image != UIImage() {
+                        cell.mealImageActivityStatus.stopAnimating()
+                    }
+                    
                 }
                 .store(in: &subscriptions)
         }

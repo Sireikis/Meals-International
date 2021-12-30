@@ -93,7 +93,6 @@ class DetailViewController: UIViewController {
             }
             .replaceError(with: MealDetails.mockMealDetails)
             .sink(receiveValue: { [unowned self] mealDetails in
-
                 viewModel.updateModel(mealDetails: mealDetails, at: indexPath)
                 viewModel.saveMealDetailsMO(at: indexPath)
                 

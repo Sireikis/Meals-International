@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 import UIKit
 
-#warning("Do I need CoreData here? Will I pass it to ImageService as a Parameter or compose them?")
+
 extension DetailViewController {
     
     final class ViewModel: ObservableObject {

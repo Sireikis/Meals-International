@@ -56,7 +56,7 @@ extension Meal {
     
     static let mockMeal = Meal(
         name: "Loading",
-        id: "0",
+        id: "-1",
         imageID: nil,
         mealDetails: MealDetails.mockMealDetails)
 }

@@ -5,7 +5,6 @@
 //  Created by Ignas Sireikis on 11/26/21.
 //
 
-import CoreData
 import UIKit
 
 

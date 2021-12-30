@@ -69,7 +69,7 @@ public class MealDetailsMO: NSManagedObject {
                 try viewContext.save()
             }
         } catch {
-            fatalError("\(#file), \(#function), \(error.localizedDescription)")
+            print(error)
         }
     }
 }

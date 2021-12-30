@@ -61,7 +61,7 @@ extension CategoryMO {
                 try viewContext.save()
             }
         } catch {
-            fatalError("\(#file), \(#function), \(error.localizedDescription)")
+            print(error)
         }
     }
 }

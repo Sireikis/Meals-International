@@ -6,7 +6,6 @@
 //
 
 import Combine
-import CoreData
 import UIKit
 
 
@@ -16,18 +15,22 @@ import UIKit
  // TODO: How can we handle errors when fetching a meal?
  -Multiple requests are made, so we could potentially be making multiple calls to show a UIAlert.
  
- // TODO: Create loading indicator instead of showing Mock?
- 
  // TODO: The following cannot be done because fetchMeals is called 14 times no matter what. Once for each category.
  #warning("Put the reload data in a better place or implement collect!")
  -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
  to fetch once for each category.
  
- // TODO: Should Core Data checks be done here or in a view Model? Or in something separate?
- 
- // TODO: FetchMeals isn't handling errors.
+ // TODO: Create loading indicator instead of showing Mock?
  
  // TODO: Current image fetching code needs error handling (some default image?) and should pull from saved images.
+ 
+ // TODO: Catch blocks when saving aren't handling errors
+
+ // TODO: There is a mismatch between the cell's images and the actual image shown. probably has to do with reused cells.
+ -This weird popping in and out happens. Does seem to happen on device as well, rarely. Might be dependent on available
+ -resources at the point in time when the request is made.
+ 
+ // TODO: Make fetches Asynchronous so they don't block the main thread?
  */
 class CategoriesViewController: UIViewController {
     
@@ -150,7 +153,12 @@ extension CategoriesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeaderLabelView = UIView()
-        sectionHeaderLabelView.backgroundColor = .white
+        sectionHeaderLabelView.backgroundColor = .systemBackground
+        
+        let activityView = UIActivityIndicatorView()
+        activityView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+        activityView.startAnimating()
+        sectionHeaderLabelView.addSubview(activityView)
         
         let sectionHeaderImageView = UIImageView()
         
@@ -160,16 +168,13 @@ extension CategoriesViewController: UITableViewDelegate {
         if let imageURL = category.imageID {
             viewModel.fetchImage(imageType: .category(imageURL))
                 .sink { completion in
-                    // Error handling here
                     print("Image header completion: \(completion)")
                 } receiveValue: { image in
                     print("Fetched Section Header Image")
                     sectionHeaderImageView.image = image
+                    activityView.stopAnimating()
                 }
                 .store(in: &subscriptions)
-        } else {
-            print("No image")
-            //sectionHeaderImageView.image = UIImage()
         }
         
         sectionHeaderImageView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
@@ -177,7 +182,7 @@ extension CategoriesViewController: UITableViewDelegate {
         
         let sectionHeaderLabel = UILabel()
         sectionHeaderLabel.text = viewModel.appState.categories[section].name
-        sectionHeaderLabel.textColor = .black
+        sectionHeaderLabel.textColor = .label
         sectionHeaderLabel.font = UIFont.boldSystemFont(ofSize: 20.0)
         sectionHeaderLabel.frame = CGRect(x: 53, y: 5, width: 250, height: 44)
         sectionHeaderLabelView.addSubview(sectionHeaderLabel)

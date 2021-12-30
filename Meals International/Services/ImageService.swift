@@ -11,13 +11,6 @@ import UIKit
 import CoreData
 
 
-/*
- // TODO: There is a mismatch between the cell's images and the actual image shown. probably has to do with reused cells.
- -This weird popping in and out happens. Does seem to happen on device as well, rarely. Might be dependent on available
- -resources at the point in time when the request is made.
- 
- // TODO: Make fetches Asynchronous so they don't block the main thread?
- */
 protocol ImageServicePublisher {
     func fetchImage(for imageType: ImageService.ImageType) -> AnyPublisher<UIImage, Never>
 }
@@ -40,7 +33,8 @@ final class ImageService: ImageServicePublisher {
         case coreDataMissingData
     }
     
-    var cache: [URL: UIImage] = [:]
+    //var cache: [URL: UIImage] = [:]
+    let cache = NSCache<NSString,UIImage>()
     var coreDataStack: CoreDataStack
     
     init(coreDataStack: CoreDataStack) {
@@ -65,7 +59,8 @@ final class ImageService: ImageServicePublisher {
     public func fetchImage(for imageType: ImageType) -> AnyPublisher<UIImage, Never> {
         let imageURL = imageType.url
         // 1) Check cache for image
-        if let image = cache[imageURL] {
+        if let image = cache.object(forKey: imageURL.absoluteString as NSString) {
+        //if let image = cache[imageURL] {
             return Future<UIImage, Never> { promise in
                 print("Used Cache for: \(imageURL)")
                 return promise(.success(image))
@@ -95,7 +90,9 @@ final class ImageService: ImageServicePublisher {
                 // Store in cache
                 print("Fetched, Then Stored in Cache: \(imageURL)")
                 let compressedImage = compressImage(image)
-                cache[imageURL] = compressedImage
+             
+                cache.setObject(compressedImage, forKey: imageURL.absoluteString as NSString)
+                //cache[imageURL] = compressedImage
                 
                 // Save photoData into Core Data
                 saveIntoCoreData(compressedImage, for: imageType)
@@ -115,7 +112,7 @@ final class ImageService: ImageServicePublisher {
     
     /// Reduces image quality to save space.
     private func compressImage(_ image: UIImage) -> UIImage {
-        let compressedImage = image.jpegData(compressionQuality: 0.01)
+        let compressedImage = image.jpegData(compressionQuality: 0)
         
         if let data = compressedImage, let lowResImage = UIImage(data: data) {
             return lowResImage
@@ -159,7 +156,8 @@ final class ImageService: ImageServicePublisher {
                let imageData = existing.photoData,
                let image = UIImage(data: imageData) {
                 // Place image into the cache
-                cache[url] = image
+                cache.setObject(image, forKey: url.absoluteString as NSString)
+                //cache[url] = image
                 print("Pulling Image from CategoryMO")
                 
                 return .success(Future<UIImage, Never> { promise in
@@ -176,7 +174,8 @@ final class ImageService: ImageServicePublisher {
                let imageData = existing.photoData,
                let image = UIImage(data: imageData) {
                 // Place image into the cache
-                cache[url] = image
+                cache.setObject(image, forKey: url.absoluteString as NSString)
+                //cache[url] = image
                 print("Pulling Image from CategoryMO")
                 
                 return .success(Future<UIImage, Never> { promise in
