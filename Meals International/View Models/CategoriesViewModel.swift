@@ -41,14 +41,17 @@ extension CategoriesViewController {
         
         // MARK: - API Calls
         
+        /// Calls TheMealsDB API to retrieve a list of Categories.
         public func fetchCategories() -> AnyPublisher<[Category], Error> {
             mealsDBService.categories()
         }
         
+        /// Calls TheMealsDB API to retrieve a list of Meals for a given Category.
         public func fetchMeals(for category: Category) -> AnyPublisher<[Meal], Error> {
             mealsDBService.filterMeals(for: category)
         }
       
+        /// Calls an ImageService to retrieve an Image for a given URL and content type -- Category or Meal.
         public func fetchImage(imageType: ImageService.ImageType) -> AnyPublisher<UIImage, Never> {
             imageService.fetchImage(for: imageType)
         }
@@ -64,6 +67,7 @@ extension CategoriesViewController {
             
             return categoryCount > 0
         }
+        
         /// Updates the appState using all CategoryMO's in Core Data.
         public func updateAppState() {
             let fetchRequest: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
@@ -75,12 +79,14 @@ extension CategoriesViewController {
                 appState.categories = categories.transformToCategories()
             }
         }
+        
         /// Save a Category from the given index into the current view context.
         public func saveCategoryMO(at index: Int) {
             CategoryMO.save(
                 category: appState.categories[index],
                 intoViewContext: coreDataStack.managedContext)
         }
+        
         /// Save all Meals from the given Category index into the current view context.
         public func saveMealMO(meals: [Meal], at index: Int) {
             for meal in meals {

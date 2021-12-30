@@ -9,29 +9,7 @@ import Combine
 import UIKit
 
 
-/*
- // TODO: Need to add Tests!
- 
- // TODO: How can we handle errors when fetching a meal?
- -Multiple requests are made, so we could potentially be making multiple calls to show a UIAlert.
- 
- // TODO: The following cannot be done because fetchMeals is called 14 times no matter what. Once for each category.
- #warning("Put the reload data in a better place or implement collect!")
- -We receive ALL the categories and Meals for a category in a single batch, but the way we wrote the code means we need
- to fetch once for each category.
- 
- // TODO: Create loading indicator instead of showing Mock?
- 
- // TODO: Current image fetching code needs error handling (some default image?) and should pull from saved images.
- 
- // TODO: Catch blocks when saving aren't handling errors
 
- // TODO: There is a mismatch between the cell's images and the actual image shown. probably has to do with reused cells.
- -This weird popping in and out happens. Does seem to happen on device as well, rarely. Might be dependent on available
- -resources at the point in time when the request is made.
- 
- // TODO: Make fetches Asynchronous so they don't block the main thread?
- */
 class CategoriesViewController: UIViewController {
     
     var viewModel: CategoriesViewController.ViewModel!
@@ -164,7 +142,6 @@ extension CategoriesViewController: UITableViewDelegate {
         
         let category = viewModel.appState.categories[section]
    
-#warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
         if let imageURL = category.imageID {
             viewModel.fetchImage(imageType: .category(imageURL))
                 .sink { completion in

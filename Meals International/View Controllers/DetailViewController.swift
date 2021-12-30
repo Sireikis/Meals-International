@@ -59,7 +59,7 @@ class DetailViewController: UIViewController {
     
     // MARK: - API Calls
     
-    /// Checks if Core Data has any MealDetailsMO data, if it does it loads it and updates appState.
+    /// Checks if Core Data has any MealDetailsMO data, if it does then load and update appState.
     /// If there is no Core Data, performs a fetch request and saves that data.
     public func fetchMealDetailsIfNeeded() {
         if viewModel.coreDataHasData(for: meal) {
@@ -72,9 +72,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-    // I need comments here
-#warning("I should save MealDetails into core data here!")
-#warning("I should also check if Core Data has Meal Details before this method is called!")
+    /// Calls the API for MealDetails data that will be used to update the current appState.
+    /// After the call succeeds, updates the appState and CoreData.
+    /// If an error is encountered, a UIAlert is presented.
     private func fetchMealDetails() {
         viewModel.fetchMealDetails(for: meal)
             .mapError { [unowned self] error -> TheMealsDBService.MealsError in
@@ -123,7 +123,6 @@ class DetailViewController: UIViewController {
     
 // MARK: - Helper Functions
     
-    #warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
     private func setImage() {
         if let imageURL = meal.imageID {
             viewModel.fetchImage(imageType: .meal(imageURL))

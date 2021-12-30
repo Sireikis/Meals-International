@@ -33,7 +33,6 @@ final class ImageService: ImageServicePublisher {
         case coreDataMissingData
     }
     
-    //var cache: [URL: UIImage] = [:]
     let cache = NSCache<NSString,UIImage>()
     var coreDataStack: CoreDataStack
     
@@ -41,9 +40,9 @@ final class ImageService: ImageServicePublisher {
         self.coreDataStack = coreDataStack
     }
 
-    #warning("This method might benefit from some batch Update implementation. Maybe store images retreived, after some amount batch update?")
-    /// Check if image is already in cache, return if so.
-    /// Otherwise, create a fetch request, retrieve that image, and save it into the cache.
+    /// Check if image is already in cache, return it if so.
+    /// If not, check Core Data, store in cache, and return the image.
+    /// Otherwise, create a fetch request, retrieve that image, and store in cache and Core Data.
     ///
     /// 1) Check cache first
     ///     - Return Image
@@ -60,7 +59,6 @@ final class ImageService: ImageServicePublisher {
         let imageURL = imageType.url
         // 1) Check cache for image
         if let image = cache.object(forKey: imageURL.absoluteString as NSString) {
-        //if let image = cache[imageURL] {
             return Future<UIImage, Never> { promise in
                 print("Used Cache for: \(imageURL)")
                 return promise(.success(image))
@@ -90,9 +88,7 @@ final class ImageService: ImageServicePublisher {
                 // Store in cache
                 print("Fetched, Then Stored in Cache: \(imageURL)")
                 let compressedImage = compressImage(image)
-             
                 cache.setObject(compressedImage, forKey: imageURL.absoluteString as NSString)
-                //cache[imageURL] = compressedImage
                 
                 // Save photoData into Core Data
                 saveIntoCoreData(compressedImage, for: imageType)
@@ -133,6 +129,7 @@ final class ImageService: ImageServicePublisher {
         
         return fetchRequest
     }
+    
     /// Returns a fetch request that finds the MealMO with the given url
     private func imageIDMealMOFetchRequest(for url: URL) -> NSFetchRequest<MealMO> {
         let fetchRequest: NSFetchRequest<MealMO> = MealMO.fetchRequest()
@@ -157,7 +154,6 @@ final class ImageService: ImageServicePublisher {
                let image = UIImage(data: imageData) {
                 // Place image into the cache
                 cache.setObject(image, forKey: url.absoluteString as NSString)
-                //cache[url] = image
                 print("Pulling Image from CategoryMO")
                 
                 return .success(Future<UIImage, Never> { promise in
@@ -169,13 +165,13 @@ final class ImageService: ImageServicePublisher {
             print("Entered Core Data Meal Fetch")
             let fetchRequest = imageIDMealMOFetchRequest(for: url)
    
+            // Attempt to retrieve the image from Core Data
             if let result = try? coreDataStack.managedContext.fetch(fetchRequest),
                let existing = result.first,
                let imageData = existing.photoData,
                let image = UIImage(data: imageData) {
                 // Place image into the cache
                 cache.setObject(image, forKey: url.absoluteString as NSString)
-                //cache[url] = image
                 print("Pulling Image from CategoryMO")
                 
                 return .success(Future<UIImage, Never> { promise in

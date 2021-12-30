@@ -73,7 +73,6 @@ extension Collection where Element == MealMO {
     
     func transformToMeals() -> [Meal] {
         let meals = self.map { mealMO -> Meal in
-            #warning("Transform MealDetailsMO into MealDetail")
             let meal = Meal(
                 name: mealMO.name,
                 id: mealMO.id,

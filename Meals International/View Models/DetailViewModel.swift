@@ -35,24 +35,29 @@ extension DetailViewController {
         
         // MARK: - Model Manipulation
         
+        /// Updates the appState's MealDetails at a specific index.
         public func updateModel(mealDetails: MealDetails, at indexPath: IndexPath) {
             appState.categories[indexPath.section].meals[indexPath.row].mealDetails = mealDetails
         }
         
+        /// Retrieves a Meal from a specific index.
         public func getMeal(at indexPath: IndexPath) -> Meal {
             appState.categories[indexPath.section].meals[indexPath.row]
         }
         
+        /// Retrieves MealDetails from a specific index.
         public func getMealDetails(at indexPath: IndexPath) -> MealDetails? {
             appState.categories[indexPath.section].meals[indexPath.row].mealDetails
         }
         
         // MARK: - API Calls
         
+        /// Calls TheMealsDB API to retrieve MealDetails for a given Meal.
         public func fetchMealDetails(for meal: Meal) -> AnyPublisher<MealDetails, Error> {
             mealsDBService.lookUp(meal: meal)
         }
         
+        /// Calls an ImageService to retrieve an Image for a given URL and content type -- Category or Meal.
         public func fetchImage(imageType: ImageService.ImageType) -> AnyPublisher<UIImage, Never> {
             imageService.fetchImage(for: imageType)
         }
@@ -94,6 +99,7 @@ extension DetailViewController {
             
             return fetchRequest
         }
+        
         /// Saves MealDetails at the given Meal index into the current view context.
         public func saveMealDetailsMO(at indexPath: IndexPath) {
             guard let mealDetails = getMealDetails(at: indexPath) else { return }

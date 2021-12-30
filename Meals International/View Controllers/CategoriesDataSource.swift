@@ -42,8 +42,6 @@ class CategoriesDataSource: NSObject, UITableViewDataSource {
         // creating the popping visual bug.
         cell.mealImage.image = UIImage()
         
-#warning("Need error handling, some stock image shown instead? Maybe handled by ImageService?")
-#warning("I might be better off actually making the ImageService capable of failing, so that I can respond to the failure condition.")
         if let imageURL = meal.imageID {
             viewModel.fetchImage(imageType: .meal(imageURL))
                 .sink { completion in
