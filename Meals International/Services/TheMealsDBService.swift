@@ -9,13 +9,13 @@ import Combine
 import Foundation
 
 
-public protocol TheMealsDBServiceDataPublisher {
+public protocol APIServiceDataPublisher {
     func categories() -> AnyPublisher<[Category], Error>
     func filterMeals(for category: Category) -> AnyPublisher<[Meal], Error>
     func lookUp(meal: Meal) -> AnyPublisher<MealDetails, Error>
 }
 
-public final class TheMealsDBService: TheMealsDBServiceDataPublisher {
+public final class TheMealsDBService: APIServiceDataPublisher {
     
     private static let decoder = JSONDecoder()
     

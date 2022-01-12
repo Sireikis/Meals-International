@@ -9,7 +9,6 @@ import Combine
 import UIKit
 
 
-
 class CategoriesViewController: UIViewController {
     
     var viewModel: CategoriesViewController.ViewModel!

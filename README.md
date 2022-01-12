@@ -15,7 +15,9 @@ The UI itself is a UITableViewController with each cell leading to a custom Deta
 
 ## Things to Improve ##
 
-* Currently this project is missing tests. 
+* Currently this project is missing tests.
+* Code could be made more DRY by making certain functions more generic.
+    * Specifically some of the ImageService code in the "Helper Methods" section.
 * Error handling could be refined to deal with specific errors in a way that creates a better user experience, rather than just showing an alert.
 * We reload the tableView a number of times equal to the number of categories, which is currently 14.
 * The catch blocks for attempting to save the Core Data context ignore errors.

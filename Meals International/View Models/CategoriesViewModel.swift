@@ -20,7 +20,7 @@ extension CategoriesViewController {
         let container: DIContainer
         
         private static let decoder = JSONDecoder()
-        private let mealsDBService: TheMealsDBServiceDataPublisher
+        private let mealsDBService: APIServiceDataPublisher
         private let imageService: ImageServicePublisher
         public let coreDataStack: CoreDataStack
         

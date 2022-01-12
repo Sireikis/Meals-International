@@ -10,10 +10,10 @@ extension DIContainer {
     
     struct Services {
         
-        let mealsDBService: TheMealsDBServiceDataPublisher
+        let mealsDBService: APIServiceDataPublisher
         let imageService: ImageServicePublisher
         
-        init(mealsDBService: TheMealsDBServiceDataPublisher, imageService: ImageServicePublisher) {
+        init(mealsDBService: APIServiceDataPublisher, imageService: ImageServicePublisher) {
             self.mealsDBService = mealsDBService
             self.imageService = imageService
         }
